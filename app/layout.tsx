@@ -23,23 +23,9 @@ export const metadata: Metadata = {
   description: 'Premium consulting services for market entry, government relations, strategic partnerships, and business development across Saudi Arabia and the GCC. Connecting Opportunities. Creating Growth.',
   generator: 'v0.app',
   keywords: ['consulting', 'Saudi Arabia', 'GCC', 'market entry', 'government relations', 'strategic advisory', 'business development', 'Vision 2030'],
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+ icons: {
+  icon: '/favicon.png',
+},
 }
 
 export const viewport: Viewport = {
