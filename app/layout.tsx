@@ -21,7 +21,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: 'H&S | Hayyak & Solutions - Your Trusted Gateway to Business Success in Saudi Arabia',
   description: 'Premium consulting services for market entry, government relations, strategic partnerships, and business development across Saudi Arabia and the GCC. Connecting Opportunities. Creating Growth.',
-  generator: 'v0.app',
+  generator: 'Hayyak & Solutions',
   keywords: ['consulting', 'Saudi Arabia', 'GCC', 'market entry', 'government relations', 'strategic advisory', 'business development', 'Vision 2030'],
  icons: {
   icon: '/favicon.png',
