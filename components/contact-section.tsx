@@ -2,55 +2,77 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MapPin, Phone, Mail, MessageCircle, Linkedin, Send, CheckCircle } from "lucide-react"
-import { sendContactEmail } from "@/app/actions/contact"
+import { MapPin, Phone, Mail, MessageCircle, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react"
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface ContactFormData {
+  name: string
+  email: string
+  phone: string
+  company: string
+  service: string
+  message: string
+}
+
+const EMPTY_FORM: ContactFormData = {
+  name: "",
+  company: "",
+  service: "",
+  email: "",
+  phone: "",
+  message: "",
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export function ContactSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [formData, setFormData] = useState({
-    name: "",
-    company: "",
-    email: "",
-    phone: "",
-    message: "",
-  })
+  const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitStatus("idle")
     setErrorMessage("")
 
     try {
-      const result = await sendContactEmail(formData)
-      
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
       if (result.success) {
         setSubmitStatus("success")
-        setFormData({ name: "", company: "", email: "", phone: "", message: "" })
+        setFormData(EMPTY_FORM)
       } else {
         setSubmitStatus("error")
-        setErrorMessage(result.error || "Failed to send message")
+        setErrorMessage(
+          result.error ||
+            "Unable to send your message right now. Please try again or email us directly at info@hayyaksa.com"
+        )
       }
     } catch {
       setSubmitStatus("error")
-      setErrorMessage("An unexpected error occurred")
+      setErrorMessage(
+        "Network error. Please check your connection and try again, or email us directly at info@hayyaksa.com"
+      )
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
-    if (submitStatus !== "idle") {
-      setSubmitStatus("idle")
-    }
+    if (submitStatus !== "idle") setSubmitStatus("idle")
   }
 
   return (
@@ -70,7 +92,7 @@ export function ContactSection() {
               Let&apos;s Start a Conversation
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-10">
-              Ready to explore opportunities in Saudi Arabia? Our team is here to 
+              Ready to explore opportunities in Saudi Arabia? Our team is here to
               help you navigate your journey to success in the Kingdom.
             </p>
 
@@ -108,18 +130,18 @@ export function ContactSection() {
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Phone</h3>
                   <a href="tel:+966511047242" className="text-[#00338D] hover:underline">
-                    +96651 104 7242
+                    +966 51 104 7242
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* Social Links */}
+            {/* Social Links — all with target="_blank" and rel attributes */}
             <div className="flex gap-4">
               <a
-              href="https://wa.me/966511047242"
-  target="_blank"
-  rel="noopener noreferrer"
+                href="https://wa.me/966511047242"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-[#25D366] flex items-center justify-center text-white hover:opacity-90 transition-opacity"
                 aria-label="Contact us on WhatsApp"
               >
@@ -127,6 +149,8 @@ export function ContactSection() {
               </a>
               <a
                 href="https://www.linkedin.com/company/hayyak-solutions"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-[#0A66C2] flex items-center justify-center text-white hover:opacity-90 transition-opacity"
                 aria-label="Follow us on LinkedIn"
               >
@@ -151,11 +175,11 @@ export function ContactSection() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3"
+                  className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-start gap-3"
                 >
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <p className="text-green-800 font-medium">
-                    Your message has been sent successfully.
+                    Your message has been sent successfully. We&apos;ll be in touch soon!
                   </p>
                 </motion.div>
               )}
@@ -165,8 +189,9 @@ export function ContactSection() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl"
+                  className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
                 >
+                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <p className="text-red-800 font-medium">{errorMessage}</p>
                 </motion.div>
               )}
@@ -175,7 +200,7 @@ export function ContactSection() {
                 <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Full Name
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="name"
@@ -203,10 +228,24 @@ export function ContactSection() {
                     />
                   </div>
                 </div>
+                <div>
+                  <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
+                    Service of Interest
+                  </label>
+                  <Input
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    placeholder="e.g. Market Entry Strategy, Government Relations"
+                    className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
+                    disabled={isSubmitting}
+                  />
+                </div>
                 <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email
+                      Email <span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="email"
@@ -238,7 +277,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Message
+                    Message <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="message"

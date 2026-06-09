@@ -3,29 +3,42 @@ import { Inter, Playfair_Display, Manrope } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter'
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 })
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: '--font-playfair'
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
 })
 
-const manrope = Manrope({ 
-  subsets: ["latin"],
-  variable: '--font-manrope'
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'H&S | Hayyak & Solutions - Your Trusted Gateway to Business Success in Saudi Arabia',
-  description: 'Premium consulting services for market entry, government relations, strategic partnerships, and business development across Saudi Arabia and the GCC. Connecting Opportunities. Creating Growth.',
+  title: 'H&S | Hayyak & Solutions — Your Trusted Gateway to Business Success in Saudi Arabia',
+  description:
+    'Premium consulting services for market entry, government relations, strategic partnerships, and business development across Saudi Arabia and the GCC. Connecting Opportunities. Creating Growth.',
   generator: 'Hayyak & Solutions',
-  keywords: ['consulting', 'Saudi Arabia', 'GCC', 'market entry', 'government relations', 'strategic advisory', 'business development', 'Vision 2030'],
- icons: {
-  icon: '/favicon.png',
-},
+  keywords: [
+    'consulting',
+    'Saudi Arabia',
+    'GCC',
+    'market entry',
+    'government relations',
+    'strategic advisory',
+    'business development',
+    'Vision 2030',
+  ],
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export const viewport: Viewport = {
@@ -40,10 +53,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${manrope.variable} bg-background`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${playfair.variable} ${manrope.variable} bg-background`}
+    >
       <body className="font-sans antialiased">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <Analytics />
       </body>
     </html>
   )
