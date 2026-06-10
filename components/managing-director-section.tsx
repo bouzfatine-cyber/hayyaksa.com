@@ -84,7 +84,7 @@ export function ManagingDirectorSection() {
               is reshaping the economic landscape and creating unprecedented possibilities 
               for international businesses.&quot;
             </p>
-            <p className="text-white/90 leading-relaxed">
+            <p className="text-white/90 leading-relaxed text-lg mb-6">
               &quot;Our mission is to bridge international opportunity with Saudi Arabia&apos;s 
               transformation economy. We don&apos;t just facilitate market entry; we build 
               lasting partnerships that create mutual value and sustainable growth.&quot;

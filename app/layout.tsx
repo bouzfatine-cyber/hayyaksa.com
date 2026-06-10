@@ -37,7 +37,9 @@ export const metadata: Metadata = {
     'Vision 2030',
   ],
   icons: {
-    icon: '/favicon.png',
+  icon: '/icon/favicon.png',
+  shortcut: '/icon/favicon.png',
+  apple: '/icon/favicon.png',
   },
 }
 
