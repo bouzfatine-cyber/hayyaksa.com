@@ -36,11 +36,11 @@ export const metadata: Metadata = {
     'business development',
     'Vision 2030',
   ],
-  icons: {
-  icon: '/icon/favicon.png',
-  shortcut: '/icon/favicon.png',
-  apple: '/icon/favicon.png',
-  },
+icons: {
+  icon: '/favicon.png',
+  shortcut: '/favicon.png',
+  apple: '/favicon.png',
+},
 }
 
 export const viewport: Viewport = {
