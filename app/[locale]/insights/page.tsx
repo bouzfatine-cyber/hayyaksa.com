@@ -1,4 +1,4 @@
-import { InsightsClient } from './insights-client.tsx';
+import { InsightsClient } from './insights-client';
 
 export const metadata = {
   title: 'Insights| Hayyak Solutions',
