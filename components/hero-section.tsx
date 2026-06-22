@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Shield, Globe, Handshake } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { useTranslations, useLocale } from "next-intl"
 
 export function HeroSection() {
+  const t = useTranslations()
+  const locale = useLocale()
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Slow Zoom */}
@@ -33,7 +36,7 @@ export function HeroSection() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-left"
+            className={locale === "ar" ? "text-right" : "text-left"}
           >
             {/* Premium Badge */}
             <motion.div
@@ -42,22 +45,21 @@ export function HeroSection() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DCEBFA] border border-[#4B9FE1]/20 mb-8"
             >
-              <span className="w-2 h-2 rounded-full bg-[#00338D]" />
               <span className="text-sm font-medium text-[#00338D]">
-                Saudi Arabia &bull; GCC Expansion &bull; Strategic Advisory
+                {t("hero.badge")}
               </span>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline - MULTILINGUAL WITH GRADIENT */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6 text-balance"
+              className="hero-title mb-6"
             >
-              Your Trusted Gateway to{" "}
-              <span className="gradient-text">Business Success</span>{" "}
-              in Saudi Arabia
+              {t("hero.titleBefore")}
+              <span className="gradient-text">{t("hero.titleGradient")}</span>
+              {t("hero.titleAfter")}
             </motion.h1>
 
             {/* Subtext */}
@@ -67,25 +69,19 @@ export function HeroSection() {
               transition={{ delay: 0.4, duration: 0.6 }}
               className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-xl"
             >
-              Consulting, market entry, government relations, and strategic partnerships 
-              across Saudi Arabia and the GCC.
+              {t("hero.subtitle")}
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
+            <div className={locale === "ar" ? "flex flex-col sm:flex-row-reverse gap-4" : "flex flex-col sm:flex-row gap-4"}>
               <Button
                 asChild
                 size="lg"
                 className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
               >
                 <Link href="#contact">
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  {t("hero.cta1")}
+                  <ArrowRight className={locale === "ar" ? "mr-2 h-5 w-5" : "ml-2 h-5 w-5"} />
                 </Link>
               </Button>
               <Button
@@ -93,9 +89,9 @@ export function HeroSection() {
                 size="lg"
                 className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
               >
-                <Link href="#services">Explore Services</Link>
+                <Link href="#services">{t("hero.cta2")}</Link>
               </Button>
-            </motion.div>
+            </div>
 
             {/* Trust Indicators */}
             <motion.div
@@ -106,15 +102,15 @@ export function HeroSection() {
             >
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Shield className="w-5 h-5 text-[#00338D]" />
-                <span>Trusted Advisory</span>
+                <span>{t("hero.trustSignal1")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Globe className="w-5 h-5 text-[#00338D]" />
-                <span>GCC Network</span>
+                <span>{t("hero.trustSignal2")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Handshake className="w-5 h-5 text-[#00338D]" />
-                <span>Strategic Partnerships</span>
+                <span>{t("hero.trustSignal3")}</span>
               </div>
             </motion.div>
           </motion.div>
@@ -128,24 +124,24 @@ export function HeroSection() {
           >
             <div className="glass-card rounded-2xl p-8 shadow-xl">
               <h3 className="font-serif text-xl font-semibold text-foreground mb-6">
-                Connecting Opportunities. Creating Growth.
+                {t("hero.glassCardTitle")}
               </h3>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center p-4 bg-[#F8F9FB] rounded-xl">
                   <div className="text-3xl font-bold text-[#00338D] mb-1">100+</div>
-                  <div className="text-sm text-muted-foreground">Strategic Connections</div>
+                  <div className="text-sm text-muted-foreground">{t("hero.stat1Label")}</div>
                 </div>
                 <div className="text-center p-4 bg-[#F8F9FB] rounded-xl">
                   <div className="text-3xl font-bold text-[#00338D] mb-1">50+</div>
-                  <div className="text-sm text-muted-foreground">Business Partnerships</div>
+                  <div className="text-sm text-muted-foreground">{t("hero.stat2Label")}</div>
                 </div>
                 <div className="text-center p-4 bg-[#F8F9FB] rounded-xl">
                   <div className="text-3xl font-bold text-[#00338D] mb-1">10+</div>
-                  <div className="text-sm text-muted-foreground">Industries Served</div>
+                  <div className="text-sm text-muted-foreground">{t("hero.stat3Label")}</div>
                 </div>
                 <div className="text-center p-4 bg-[#F8F9FB] rounded-xl">
                   <div className="text-3xl font-bold text-[#00338D] mb-1">GCC</div>
-                  <div className="text-sm text-muted-foreground">Wide Network</div>
+                  <div className="text-sm text-muted-foreground">{t("hero.stat4Label")}</div>
                 </div>
               </div>
             </div>

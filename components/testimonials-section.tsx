@@ -3,33 +3,35 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState } from "react"
+import { useTranslations } from "next-intl"
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
 
-const testimonials = [
-  {
-    quote: "H&S provided invaluable guidance during our Saudi market entry. Their deep government relationships and strategic insights accelerated our timeline by months.",
-    author: "Sarah Chen",
-    title: "VP of International Expansion",
-    company: "Global Tech Solutions",
-  },
-  {
-    quote: "The team's understanding of Saudi business culture and regulatory landscape was exceptional. They didn't just advise—they partnered with us every step of the way.",
-    author: "Michael Rodriguez",
-    title: "CEO",
-    company: "European Manufacturing Group",
-  },
-  {
-    quote: "Working with H&S transformed our approach to the GCC market. Their investor facilitation services connected us with partners who shared our vision.",
-    author: "Ahmed Al-Rashid",
-    title: "Managing Partner",
-    company: "Gulf Investment Partners",
-  },
-]
-
 export function TestimonialsSection() {
+  const t = useTranslations()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [currentIndex, setCurrentIndex] = useState(0)
+
+  const testimonials = [
+    {
+      quoteKey: "testimonials.testimonial1",
+      authorKey: "testimonials.testimonial1Author",
+      titleKey: "testimonials.testimonial1Title",
+      companyKey: "testimonials.testimonial1Company",
+    },
+    {
+      quoteKey: "testimonials.testimonial2",
+      authorKey: "testimonials.testimonial2Author",
+      titleKey: "testimonials.testimonial2Title",
+      companyKey: "testimonials.testimonial2Company",
+    },
+    {
+      quoteKey: "testimonials.testimonial3",
+      authorKey: "testimonials.testimonial3Author",
+      titleKey: "testimonials.testimonial3Title",
+      companyKey: "testimonials.testimonial3Company",
+    },
+  ]
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length)
@@ -50,10 +52,10 @@ export function TestimonialsSection() {
           className="text-center mb-16"
         >
           <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
-            Testimonials
+            {t("testimonials.sectionLabel")}
           </span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 text-balance">
-            Trusted by Industry Leaders
+            {t("testimonials.title")}
           </h2>
         </motion.div>
 
@@ -80,18 +82,18 @@ export function TestimonialsSection() {
                 transition={{ duration: 0.4 }}
               >
                 <blockquote className="font-serif text-xl md:text-2xl text-[#00338D] leading-relaxed mb-8">
-                  &quot;{testimonials[currentIndex].quote}&quot;
+                  "{t(testimonials[currentIndex].quoteKey)}"
                 </blockquote>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#00338D] to-[#4B9FE1] flex items-center justify-center text-white font-semibold">
-                    {testimonials[currentIndex].author.charAt(0)}
+                    {t(testimonials[currentIndex].authorKey).charAt(0)}
                   </div>
                   <div>
                     <div className="font-semibold text-foreground">
-                      {testimonials[currentIndex].author}
+                      {t(testimonials[currentIndex].authorKey)}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {testimonials[currentIndex].title}, {testimonials[currentIndex].company}
+                      {t(testimonials[currentIndex].titleKey)}, {t(testimonials[currentIndex].companyKey)}
                     </div>
                   </div>
                 </div>
@@ -99,37 +101,33 @@ export function TestimonialsSection() {
             </div>
 
             {/* Navigation */}
-            <div className="flex items-center justify-between mt-8 pt-8 border-t border-border">
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={prevTestimonial}
+                className="p-2 hover:bg-white rounded-lg transition-colors"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-5 h-5 text-[#00338D]" />
+              </button>
               <div className="flex gap-2">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentIndex
-                        ? "bg-[#00338D] w-8"
-                        : "bg-[#00338D]/20 hover:bg-[#00338D]/40"
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentIndex ? "bg-[#00338D] w-8" : "bg-[#4B9FE1]/30 w-2"
                     }`}
                     aria-label={`Go to testimonial ${index + 1}`}
                   />
                 ))}
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={prevTestimonial}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#F8F9FB] transition-colors"
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="w-5 h-5 text-foreground" />
-                </button>
-                <button
-                  onClick={nextTestimonial}
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#F8F9FB] transition-colors"
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="w-5 h-5 text-foreground" />
-                </button>
-              </div>
+              <button
+                onClick={nextTestimonial}
+                className="p-2 hover:bg-white rounded-lg transition-colors"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-5 h-5 text-[#00338D]" />
+              </button>
             </div>
           </div>
         </motion.div>

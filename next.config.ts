@@ -1,14 +1,18 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+const withNextIntl = createNextIntlPlugin('./i18n.ts')
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: true, // ← KEY FIX: Disable optimization
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default withNextIntl(nextConfig)

@@ -1,3 +1,4 @@
+@import 'flag-icons/css/flag-icons.min.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -164,6 +165,83 @@ html {
   }
 }
 
-.animate-slow-zoom {
-  animation: slowZoom 20s ease-in-out infinite alternate;
+/* Premium Hero Title */
+.hero-title {
+  font-family: 'Inter', 'Inter Fallback', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #1E1E1E;
+  text-wrap: balance;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #004AAD, #2D72D8, #72A8FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   RTL (Right-to-Left) Support for Arabic
+   Text Direction Only - No Layout Changes
+   ======================================== */
+
+/* Global RTL text direction - affects text only */
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL for heading elements */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL for paragraph elements */
+html[dir="rtl"] p {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL for list items */
+html[dir="rtl"] li {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL for list containers */
+html[dir="rtl"] ul,
+html[dir="rtl"] ol {
+  padding-left: 0;
+  padding-right: 2rem;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* Keep code and pre elements LTR */
+html[dir="rtl"] code,
+html[dir="rtl"] pre {
+  direction: ltr;
+  text-align: left;
+}
+
+/* RTL form elements */
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] input::placeholder,
+html[dir="rtl"] textarea::placeholder {
+  text-align: right;
 }

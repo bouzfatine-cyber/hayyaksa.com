@@ -1,67 +1,24 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display, Manrope } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
-
-const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-manrope',
-  display: 'swap',
-})
+import type { Metadata } from "next"
+import { ThemeProvider } from "@/components/theme-provider"
+import "@/styles/globals.css"
+import "@/app/globals.css"
 
 export const metadata: Metadata = {
-  title: 'H&S | Hayyak & Solutions — Your Trusted Gateway to Business Success in Saudi Arabia',
-  description:
-    'Premium consulting services for market entry, government relations, strategic partnerships, and business development across Saudi Arabia and the GCC. Connecting Opportunities. Creating Growth.',
-  generator: 'Hayyak & Solutions',
-  keywords: [
-    'consulting',
-    'Saudi Arabia',
-    'GCC',
-    'market entry',
-    'government relations',
-    'strategic advisory',
-    'business development',
-    'Vision 2030',
-  ],
-icons: {
-  icon: '/favicon.png',
-  shortcut: '/favicon.png',
-  apple: '/favicon.png',
-},
-}
-
-export const viewport: Viewport = {
-  themeColor: '#00338D',
-  width: 'device-width',
-  initialScale: 1,
+  title: "Hayyak & Solutions",
+  description: "Business consulting and corporate services",
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${playfair.variable} ${manrope.variable} bg-background`}
-    >
-      <body className="font-sans antialiased">
-        {children}
-        <Analytics />
+    <html suppressHydrationWarning dir="ltr">
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

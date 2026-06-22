@@ -3,151 +3,160 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { useTranslations, useLocale } from "next-intl"
 import { ArrowRight, Calendar } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
-const insights = [
-  {
-    category: "Market Entry",
-    title: "Navigating Saudi Arabia's Business Landscape in 2024",
-    excerpt: "Key considerations for international companies looking to establish presence in the Kingdom's rapidly evolving market.",
-    date: "March 15, 2024",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Riyadh-BmDjGP11qgHFdpxz965iCh9yiqNErq.png",
-    featured: true,
-  },
-  {
-    category: "Vision 2030",
-    title: "Investment Opportunities in Saudi Giga-Projects",
-    excerpt: "Exploring the trillion-dollar development projects reshaping Saudi Arabia's economic future.",
-    date: "March 8, 2024",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/meeting%20room%20about%20us-HUImJyyzyYnydqTYazHcC9mdOYC4vf.png",
-    featured: false,
-  },
-  {
-    category: "Government Relations",
-    title: "Building Effective Public-Private Partnerships",
-    excerpt: "Best practices for engaging with Saudi government entities and regulatory bodies.",
-    date: "February 28, 2024",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Riyadh-BmDjGP11qgHFdpxz965iCh9yiqNErq.png",
-    featured: false,
-  },
-  {
-    category: "Strategic Advisory",
-    title: "GCC Expansion: Beyond Saudi Arabia",
-    excerpt: "Leveraging Saudi success to scale across the Gulf Cooperation Council region.",
-    date: "February 20, 2024",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/meeting%20room%20about%20us-HUImJyyzyYnydqTYazHcC9mdOYC4vf.png",
-    featured: false,
-  },
-]
-
-export function InsightsSection() {
+export default function InsightsSection() {
+  const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const insights = [
+    {
+      slug: "market-entry-saudi-arabia",
+      titleKey: "insights.insight1Title",
+      excerptKey: "insights.insight1Excerpt",
+      dateKey: "insights.insight1Date",
+      image: "/images/insights/article1.png",
+      featured: true,
+    },
+    {
+      slug: "vision-2030-investment",
+      titleKey: "insights.insight2Title",
+      excerptKey: "insights.insight2Excerpt",
+      dateKey: "insights.insight2Date",
+      image: "/images/insights/article2.png",
+      featured: false,
+    },
+    {
+      slug: "government-relations-ppp",
+      titleKey: "insights.insight3Title",
+      excerptKey: "insights.insight3Excerpt",
+      dateKey: "insights.insight3Date",
+      image: "/images/insights/article3.png",
+      featured: false,
+    },
+    {
+      slug: "gcc-expansion-strategy",
+      titleKey: "insights.insight4Title",
+      excerptKey: "insights.insight4Excerpt",
+      dateKey: "insights.insight4Date",
+      image: "/images/insights/article4.png",
+      featured: false,
+    },
+  ]
 
   const featuredArticle = insights.find((i) => i.featured)
   const otherArticles = insights.filter((i) => !i.featured)
 
   return (
-    <section id="insights" className="py-24 bg-[#F8F9FB]" ref={ref}>
+    <section id="insights" className="py-24 bg-[#F8F9FB]" ref={ref} suppressHydrationWarning>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 1, y: 0 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between mb-12"
+          className={locale === "ar" ? "flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between mb-16" : "flex flex-col lg:flex-row lg:items-center lg:justify-between mb-16"}
         >
           <div>
             <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
-              Insights
+              {t("insights.sectionLabel")}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 text-balance">
-              Latest Perspectives
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mt-2">
+              {t("insights.title")}
             </h2>
           </div>
           <Link
-            href="#"
-            className="group inline-flex items-center gap-2 text-[#00338D] font-semibold mt-4 md:mt-0 hover:gap-3 transition-all"
+            href={`/${locale}/insights`}
+            className="group inline-flex items-center gap-2 text-[#00338D] font-semibold mt-6 lg:mt-0 hover:gap-3 transition-all whitespace-nowrap"
           >
-            View All Insights
-            <ArrowRight className="w-4 h-4" />
+            {t("insights.viewAll")}
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.div>
 
-        {/* Articles Grid */}
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Featured Article */}
+        {/* Main Grid: Featured Left + 3 Cards Right */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Featured Article - Left Side */}
           {featuredArticle && (
             <motion.article
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 1, y: 0 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="group lg:row-span-2"
+              className="lg:col-span-1"
             >
-              <Link href="#" className="block h-full">
-                <div className="relative h-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                  <div className="relative h-64 lg:h-80 overflow-hidden">
+              <Link
+                href={`/${locale}/insights/${featuredArticle.slug}`}
+                className="block h-full"
+              >
+                <div className="relative h-full bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group flex flex-col">
+                  {/* Featured Image - Large */}
+                  <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden flex-shrink-0">
                     <Image
                       src={featuredArticle.image}
-                      alt={featuredArticle.title}
+                      alt={t(featuredArticle.titleKey)}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      unoptimized
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-[#00338D] text-white text-xs font-semibold rounded-full">
-                        {featuredArticle.category}
-                      </span>
-                    </div>
+
                   </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                      <Calendar className="w-4 h-4" />
-                      {featuredArticle.date}
-                    </div>
-                    <h3 className="font-serif text-2xl font-bold text-foreground mb-3 group-hover:text-[#00338D] transition-colors">
-                      {featuredArticle.title}
+                  {/* Featured Content */}
+                  <div className="p-6 md:p-8 flex flex-col flex-grow">
+                    <h3 className="font-serif text-lg md:text-xl lg:text-2xl text-foreground mb-4 group-hover:text-[#00338D] transition-colors leading-tight">
+                      {t(featuredArticle.titleKey)}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {featuredArticle.excerpt}
-                    </p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-auto">
+                      <Calendar className="w-4 h-4" />
+                      {t(featuredArticle.dateKey)}
+                    </div>
                   </div>
                 </div>
               </Link>
             </motion.article>
           )}
 
-          {/* Other Articles */}
-          <div className="space-y-6">
+          {/* Right Side - 3 Smaller Cards Stacked */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
             {otherArticles.map((article, index) => (
               <motion.article
-                key={article.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + 0.1 * index }}
-                className="group"
+                key={article.titleKey}
+                initial={{ opacity: 1, y: 0 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 + 0.1 * (index + 1) }}
               >
-                <Link href="#" className="block">
-                  <div className="flex gap-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                <Link
+                  href={`/${locale}/insights/${article.slug}`}
+                  className="block h-full"
+                >
+                  <div className="relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group flex items-start gap-4 p-4 md:p-5">
+                    {/* Small Image on Left */}
+                    <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0 overflow-hidden rounded-lg">
                       <Image
                         src={article.image}
-                        alt={article.title}
+                        alt={t(article.titleKey)}
                         fill
-                        className="object-cover"
+                        sizes="(max-width: 768px) 100px, 112px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        unoptimized
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <span className="text-xs font-semibold text-[#4B9FE1] uppercase">
-                        {article.category}
-                      </span>
-                      <h3 className="font-semibold text-foreground mt-1 mb-1 group-hover:text-[#00338D] transition-colors line-clamp-2">
-                        {article.title}
+
+                    {/* Content on Right */}
+                    <div className="flex-grow flex flex-col justify-between">
+                      {/* Title */}
+                      <h3 className="font-serif text-sm md:text-base text-foreground mb-3 group-hover:text-[#00338D] transition-colors leading-snug">
+                        {t(article.titleKey)}
                       </h3>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      {/* Date */}
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="w-3 h-3" />
-                        {article.date}
+                        {t(article.dateKey)}
                       </div>
                     </div>
                   </div>

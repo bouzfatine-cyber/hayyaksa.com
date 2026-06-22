@@ -1,8 +1,8 @@
-const nextConfig = require("eslint-config-next")
+import nextConfig from "eslint-config-next"
 
-module.exports = [
-  nextConfig,
+export default [
   {
-    ignores: ["node_modules/**", ".next/**"],
+    ignores: ["node_modules/**", ".next/**", "dist/**", "build/**"],
   },
+  nextConfig,
 ]

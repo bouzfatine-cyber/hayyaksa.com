@@ -1,0 +1,587 @@
+/* RTL Layout Support for Arabic */
+/* This file handles all RTL-specific styling for the Arabic locale (dir="rtl") */
+/* Uses Tailwind CSS selector syntax to override LTR defaults */
+
+@layer utilities {
+  /* ============================================================================
+     GLOBAL RTL SETUP
+     ============================================================================ */
+  
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="rtl"] body {
+    direction: rtl;
+  }
+
+  /* ============================================================================
+     TEXT ALIGNMENT
+     ============================================================================ */
+  
+  /* Override Tailwind's text alignment utilities for RTL */
+  [dir="rtl"] .text-left {
+    text-align: right;
+  }
+
+  [dir="rtl"] .text-center {
+    text-align: center; /* Keep centered text centered */
+  }
+
+  [dir="rtl"] .text-right {
+    text-align: left;
+  }
+
+  /* ============================================================================
+     FLEX LAYOUT - DIRECTIONAL REVERSALS
+     ============================================================================ */
+  
+  /* Standard flex row becomes flex-row-reverse in RTL */
+  [dir="rtl"] .flex-row {
+    @apply flex-row-reverse;
+  }
+
+  [dir="rtl"] .flex-row-reverse {
+    @apply flex-row;
+  }
+
+  /* Gap spacing works automatically, but ensure consistency */
+  [dir="rtl"] .gap-2 {
+    @apply gap-2;
+  }
+
+  [dir="rtl"] .gap-3 {
+    @apply gap-3;
+  }
+
+  [dir="rtl"] .gap-4 {
+    @apply gap-4;
+  }
+
+  [dir="rtl"] .gap-6 {
+    @apply gap-6;
+  }
+
+  [dir="rtl"] .gap-8 {
+    @apply gap-8;
+  }
+
+  /* Justify alignment reversals */
+  [dir="rtl"] .justify-start {
+    @apply justify-end;
+  }
+
+  [dir="rtl"] .justify-end {
+    @apply justify-start;
+  }
+
+  [dir="rtl"] .justify-between {
+    @apply justify-between; /* Keep between */
+  }
+
+  /* Items alignment (vertical) - no change needed, but explicit for clarity */
+  [dir="rtl"] .items-start {
+    @apply items-start;
+  }
+
+  [dir="rtl"] .items-center {
+    @apply items-center;
+  }
+
+  [dir="rtl"] .items-end {
+    @apply items-end;
+  }
+
+  /* ============================================================================
+     GRID LAYOUT
+     ============================================================================ */
+  
+  /* Grid cols reverse visual order in RTL - Tailwind handles this via dir attribute */
+  [dir="rtl"] .grid {
+    @apply grid;
+  }
+
+  [dir="rtl"] .grid-cols-2 {
+    @apply grid-cols-2;
+  }
+
+  [dir="rtl"] .lg\\:grid-cols-2 {
+    @apply lg:grid-cols-2;
+  }
+
+  [dir="rtl"] .md\\:grid-cols-3 {
+    @apply md:grid-cols-3;
+  }
+
+  [dir="rtl"] .md\\:grid-cols-5 {
+    @apply md:grid-cols-5;
+  }
+
+  [dir="rtl"] .grid-cols-subgrid {
+    @apply grid-cols-subgrid;
+  }
+
+  /* ============================================================================
+     MARGIN - LEFT/RIGHT SWAPPING
+     ============================================================================ */
+  
+  /* Auto margins for centering */
+  [dir="rtl"] .mx-auto {
+    @apply mx-auto;
+  }
+
+  [dir="rtl"] .ml-0 {
+    @apply ml-0 mr-0;
+  }
+
+  [dir="rtl"] .ml-1 {
+    @apply ml-0 mr-1;
+  }
+
+  [dir="rtl"] .ml-2 {
+    @apply ml-0 mr-2;
+  }
+
+  [dir="rtl"] .ml-3 {
+    @apply ml-0 mr-3;
+  }
+
+  [dir="rtl"] .ml-4 {
+    @apply ml-0 mr-4;
+  }
+
+  [dir="rtl"] .ml-6 {
+    @apply ml-0 mr-6;
+  }
+
+  [dir="rtl"] .ml-8 {
+    @apply ml-0 mr-8;
+  }
+
+  [dir="rtl"] .ml-auto {
+    @apply ml-0 mr-auto;
+  }
+
+  [dir="rtl"] .mr-0 {
+    @apply mr-0 ml-0;
+  }
+
+  [dir="rtl"] .mr-1 {
+    @apply mr-0 ml-1;
+  }
+
+  [dir="rtl"] .mr-2 {
+    @apply mr-0 ml-2;
+  }
+
+  [dir="rtl"] .mr-3 {
+    @apply mr-0 ml-3;
+  }
+
+  [dir="rtl"] .mr-4 {
+    @apply mr-0 ml-4;
+  }
+
+  [dir="rtl"] .mr-6 {
+    @apply mr-0 ml-6;
+  }
+
+  [dir="rtl"] .mr-8 {
+    @apply mr-0 ml-8;
+  }
+
+  [dir="rtl"] .mr-auto {
+    @apply mr-0 ml-auto;
+  }
+
+  /* ============================================================================
+     PADDING - LEFT/RIGHT SWAPPING
+     ============================================================================ */
+  
+  [dir="rtl"] .pl-0 {
+    @apply pl-0 pr-0;
+  }
+
+  [dir="rtl"] .pl-2 {
+    @apply pl-0 pr-2;
+  }
+
+  [dir="rtl"] .pl-4 {
+    @apply pl-0 pr-4;
+  }
+
+  [dir="rtl"] .pl-6 {
+    @apply pl-0 pr-6;
+  }
+
+  [dir="rtl"] .pl-8 {
+    @apply pl-0 pr-8;
+  }
+
+  [dir="rtl"] .pr-0 {
+    @apply pr-0 pl-0;
+  }
+
+  [dir="rtl"] .pr-2 {
+    @apply pr-0 pl-2;
+  }
+
+  [dir="rtl"] .pr-4 {
+    @apply pr-0 pl-4;
+  }
+
+  [dir="rtl"] .pr-6 {
+    @apply pr-0 pl-6;
+  }
+
+  [dir="rtl"] .pr-8 {
+    @apply pr-0 pl-8;
+  }
+
+  /* ============================================================================
+     POSITIONING - LEFT/RIGHT SWAP
+     ============================================================================ */
+  
+  [dir="rtl"] .right-0 {
+    @apply right-auto left-0;
+  }
+
+  [dir="rtl"] .right-4 {
+    @apply right-auto left-4;
+  }
+
+  [dir="rtl"] .right-6 {
+    @apply right-auto left-6;
+  }
+
+  [dir="rtl"] .right-8 {
+    @apply right-auto left-8;
+  }
+
+  [dir="rtl"] .left-0 {
+    @apply left-auto right-0;
+  }
+
+  [dir="rtl"] .left-4 {
+    @apply left-auto right-4;
+  }
+
+  [dir="rtl"] .left-6 {
+    @apply left-auto right-6;
+  }
+
+  [dir="rtl"] .left-8 {
+    @apply left-auto right-8;
+  }
+
+  /* ============================================================================
+     BORDER - LEFT/RIGHT SWAP
+     ============================================================================ */
+  
+  [dir="rtl"] .border-l {
+    @apply border-l-0 border-r;
+  }
+
+  [dir="rtl"] .border-l-0 {
+    @apply border-l-0 border-r-0;
+  }
+
+  [dir="rtl"] .border-r {
+    @apply border-r-0 border-l;
+  }
+
+  [dir="rtl"] .border-r-0 {
+    @apply border-r-0 border-l-0;
+  }
+
+  /* ============================================================================
+     FORM ELEMENTS - TEXT DIRECTION
+     ============================================================================ */
+  
+  [dir="rtl"] input,
+  [dir="rtl"] textarea,
+  [dir="rtl"] select {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="rtl"] input::placeholder,
+  [dir="rtl"] textarea::placeholder {
+    text-align: right;
+  }
+
+  /* ============================================================================
+     ICON & SVG HANDLING
+     ============================================================================ */
+  
+  /* Icons typically don't need flipping for Arabic, only arrow directions */
+  [dir="rtl"] .group-hover\\:gap-3 {
+    @apply gap-2;
+  }
+
+  /* Specific icon classes that might need flipping */
+  [dir="rtl"] .icon-right-arrow {
+    @apply rotate-180;
+  }
+
+  [dir="rtl"] .icon-left-arrow {
+    @apply rotate-180;
+  }
+
+  /* ============================================================================
+     COMPONENT-SPECIFIC RTL ADJUSTMENTS
+     ============================================================================ */
+  
+  /* Navbar */
+  [dir="rtl"] .navbar {
+    @apply flex-row-reverse;
+  }
+
+  [dir="rtl"] .navbar-logo {
+    @apply ml-0 mr-auto;
+  }
+
+  [dir="rtl"] .nav-links {
+    @apply flex-row-reverse;
+  }
+
+  [dir="rtl"] .language-selector {
+    @apply border-r border-gray-300 pl-0 pr-6 border-l-0;
+  }
+
+  /* Hero section */
+  [dir="rtl"] .hero-title {
+    @apply text-right;
+  }
+
+  [dir="rtl"] .hero-content {
+    @apply text-right;
+  }
+
+  /* Hero grid - grid automatically handles via dir, but ensure layout */
+  [dir="rtl"] .hero-grid {
+    @apply grid;
+  }
+
+  /* CTA Buttons container */
+  [dir="rtl"] .flex.flex-col.sm\\:flex-row {
+    @apply flex-col sm:flex-row;
+  }
+
+  /* About section */
+  [dir="rtl"] .about-content {
+    @apply text-right;
+  }
+
+  [dir="rtl"] .about-grid {
+    @apply grid gap-12 lg:gap-16;
+  }
+
+  /* Trust indicators flex */
+  [dir="rtl"] .flex.flex-wrap {
+    @apply flex-wrap;
+  }
+
+  /* Services grid */
+  [dir="rtl"] .services-grid {
+    @apply grid;
+  }
+
+  [dir="rtl"] .service-card {
+    @apply rounded-2xl;
+  }
+
+  /* Industries section */
+  [dir="rtl"] .industries-grid {
+    @apply grid;
+  }
+
+  /* Testimonials */
+  [dir="rtl"] .testimonial-card {
+    @apply text-right;
+  }
+
+  /* Contact section */
+  [dir="rtl"] .contact-grid {
+    @apply grid gap-16;
+  }
+
+  [dir="rtl"] .contact-info {
+    @apply text-right;
+  }
+
+  [dir="rtl"] .form-container {
+    @apply grid;
+  }
+
+  /* Form fields */
+  [dir="rtl"] .form-group {
+    @apply text-right;
+  }
+
+  [dir="rtl"] .form-input {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Footer */
+  [dir="rtl"] .footer-grid {
+    @apply grid;
+  }
+
+  [dir="rtl"] .footer-column {
+    @apply text-right;
+  }
+
+  [dir="rtl"] .footer-links {
+    @apply flex flex-col gap-2 items-end;
+  }
+
+  /* Social icons container */
+  [dir="rtl"] .flex.items-center.gap-2 {
+    @apply gap-2;
+  }
+
+  /* ============================================================================
+     RESPONSIVE UTILITIES - RTL
+     ============================================================================ */
+  
+  /* Mobile menu positioning */
+  [dir="rtl"] .left-0 {
+    @apply left-auto right-0;
+  }
+
+  [dir="rtl"] .right-0 {
+    @apply right-auto left-0;
+  }
+
+  /* Grid responsive - works automatically with dir, explicit overrides */
+  @media (max-width: 1024px) {
+    [dir="rtl"] .lg\\:grid-cols-2 {
+      @apply grid-cols-1;
+    }
+
+    [dir="rtl"] .lg\\:flex {
+      @apply hidden;
+    }
+
+    [dir="rtl"] .lg\\:hidden {
+      @apply flex;
+    }
+
+    [dir="rtl"] .lg\\:flex-row {
+      @apply flex-row-reverse;
+    }
+  }
+
+  @media (max-width: 768px) {
+    [dir="rtl"] .md\\:grid-cols-3 {
+      @apply grid-cols-2;
+    }
+
+    [dir="rtl"] .md\\:grid-cols-5 {
+      @apply grid-cols-2;
+    }
+
+    [dir="rtl"] .md\\:flex-row {
+      @apply flex-row-reverse;
+    }
+  }
+
+  /* ============================================================================
+     OVERRIDE FOR COMPONENTS WITH HARDCODED DIRECTIONS
+     ============================================================================ */
+  
+  /* Scroll indicator - translate-x needs adjustment */
+  [dir="rtl"] .-translate-x-1\\/2 {
+    @apply -translate-x-1/2;
+  }
+
+  /* Glass card and decorative elements */
+  [dir="rtl"] .glass-card {
+    @apply rounded-2xl;
+  }
+
+  /* Badges and pills */
+  [dir="rtl"] .inline-flex {
+    @apply inline-flex;
+  }
+
+  /* Gradient text */
+  [dir="rtl"] .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  /* ============================================================================
+     UTILITY PRESERVATION (Work correctly in RTL, no changes needed)
+     ============================================================================ */
+  
+  /* These work correctly in RTL without modification */
+  [dir="rtl"] .p-2,
+  [dir="rtl"] .p-4,
+  [dir="rtl"] .p-6,
+  [dir="rtl"] .p-8,
+  [dir="rtl"] .px-6,
+  [dir="rtl"] .px-8,
+  [dir="rtl"] .py-2,
+  [dir="rtl"] .py-4,
+  [dir="rtl"] .py-6,
+  [dir="rtl"] .py-8,
+  [dir="rtl"] .pt-6,
+  [dir="rtl"] .pt-24,
+  [dir="rtl"] .pb-20,
+  [dir="rtl"] .rounded-2xl,
+  [dir="rtl"] .rounded-full,
+  [dir="rtl"] .max-w-7xl,
+  [dir="rtl"] .max-w-xl,
+  [dir="rtl"] .mx-auto,
+  [dir="rtl"] .shadow-xl,
+  [dir="rtl"] .text-xl,
+  [dir="rtl"] .text-2xl,
+  [dir="rtl"] .text-3xl,
+  [dir="rtl"] .font-bold,
+  [dir="rtl"] .font-semibold,
+  [dir="rtl"] .leading-relaxed,
+  [dir="rtl"] .leading-tight {
+    /* No change needed - these work correctly in RTL */
+  }
+}
+
+/* ============================================================================
+   BASE LAYER RTL ADJUSTMENTS
+   ============================================================================ */
+
+@layer base {
+  [dir="rtl"] {
+    --tw-direction: rtl;
+  }
+
+  [dir="rtl"] body {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] h5,
+  [dir="rtl"] h6 {
+    text-align: right;
+  }
+
+  [dir="rtl"] p,
+  [dir="rtl"] li,
+  [dir="rtl"] a {
+    text-align: right;
+  }
+
+  [dir="rtl"] ul,
+  [dir="rtl"] ol {
+    padding-right: 2rem;
+    padding-left: 0;
+  }
+}
+

@@ -3,35 +3,38 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { useTranslations, useLocale } from "next-intl"
 import { MapPin, Network, Compass, HeartHandshake } from "lucide-react"
 import Image from "next/image"
 
-const pillars = [
-  {
-    icon: MapPin,
-    title: "Saudi Expertise",
-    description: "Deep understanding of local market dynamics, culture, and business practices",
-  },
-  {
-    icon: Network,
-    title: "GCC Network",
-    description: "Established relationships across the Gulf Cooperation Council region",
-  },
-  {
-    icon: Compass,
-    title: "Strategic Advisory",
-    description: "Executive-level guidance aligned with Vision 2030 objectives",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Trusted Relationships",
-    description: "Long-term partnerships built on integrity and mutual success",
-  },
-]
-
 export function AboutSection() {
+  const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const pillars = [
+    {
+      icon: MapPin,
+      titleKey: "aboutUs.pillar1Title",
+      descKey: "aboutUs.pillar1Desc",
+    },
+    {
+      icon: Network,
+      titleKey: "aboutUs.pillar2Title",
+      descKey: "aboutUs.pillar2Desc",
+    },
+    {
+      icon: Compass,
+      titleKey: "aboutUs.pillar3Title",
+      descKey: "aboutUs.pillar3Desc",
+    },
+    {
+      icon: HeartHandshake,
+      titleKey: "aboutUs.pillar4Title",
+      descKey: "aboutUs.pillar4Desc",
+    },
+  ]
 
   return (
     <section id="about" className="py-24 bg-[#F8F9FB]" ref={ref}>
@@ -39,7 +42,7 @@ export function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: locale === "ar" ? 30 : -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
             className="relative"
@@ -54,48 +57,48 @@ export function AboutSection() {
               />
             </div>
             {/* Decorative element */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#00338D] to-[#4B9FE1] rounded-2xl -z-10" />
+            <div className={locale === "ar" ? "absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-[#00338D] to-[#4B9FE1] rounded-2xl -z-10" : "absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#00338D] to-[#4B9FE1] rounded-2xl -z-10"} />
           </motion.div>
 
           {/* Content */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: locale === "ar" ? -30 : 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
-              About H&S
+              {t("aboutUs.sectionLabel")}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance">
-              Connecting Vision with Opportunity
+              {t("aboutUs.title")}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Hayyak & Solutions bridges international ambition with Saudi opportunity. 
-              We combine deep local expertise with global business acumen to help organizations 
-              navigate, enter, and thrive in one of the world&apos;s most dynamic markets.
+              {t("aboutUs.para1")}
             </p>
             <p className="text-muted-foreground leading-relaxed mb-10">
-              Our team brings decades of combined experience across government relations, 
-              corporate strategy, and market development. We don&apos;t just advise—we partner 
-              with our clients to deliver tangible results.
+              {t("aboutUs.para2")}
             </p>
 
             {/* Pillars */}
             <div className="grid grid-cols-2 gap-6">
               {pillars.map((pillar, index) => (
                 <motion.div
-                  key={pillar.title}
+                  key={pillar.titleKey}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.4 + 0.1 * index }}
-                  className="flex items-start gap-3"
+                  className={locale === "ar" ? "flex items-start gap-3 flex-row-reverse" : "flex items-start gap-3"}
                 >
                   <div className="w-10 h-10 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                     <pillar.icon className="w-5 h-5 text-[#00338D]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground mb-1">{pillar.title}</h3>
-                    <p className="text-sm text-muted-foreground">{pillar.description}</p>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      {t(pillar.titleKey)}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t(pillar.descKey)}
+                    </p>
                   </div>
                 </motion.div>
               ))}

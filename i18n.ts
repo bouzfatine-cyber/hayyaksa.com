@@ -5,20 +5,36 @@ export type Locale = (typeof locales)[number]
 
 export const defaultLocale: Locale = 'en'
 
-// Direction mapping for each locale
 export const localeDirection: Record<Locale, 'ltr' | 'rtl'> = {
   en: 'ltr',
   ar: 'rtl',
-  fr: 'ltr',
+  fr: 'ltr'
 }
 
-// Display names for language selector
 export const localeLabels: Record<Locale, { name: string; flag: string }> = {
   en: { name: 'English', flag: '🇬🇧' },
   ar: { name: 'العربية', flag: '🇸🇦' },
-  fr: { name: 'Français', flag: '🇫🇷' },
+  fr: { name: 'Français', flag: '🇫🇷' }
 }
 
-export default getRequestConfig(async ({ locale }) => ({
-  messages: (await import(`./locales/${locale}.json`)).default,
-}))
+export default getRequestConfig(async ({ locale }) => {
+  const resolvedLocale = locale ?? defaultLocale
+
+  let messages
+
+  switch (resolvedLocale) {
+    case 'ar':
+      messages = (await import('./locales/ar.json')).default
+      break
+    case 'fr':
+      messages = (await import('./locales/fr.json')).default
+      break
+    default:
+      messages = (await import('./locales/en.json')).default
+  }
+
+  return {
+    locale: resolvedLocale,
+    messages
+  }
+})

@@ -3,11 +3,11 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState, type ChangeEvent, type FormEvent } from "react"
+import { useTranslations, useLocale } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MapPin, Phone, Mail, MessageCircle, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react"
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 interface ContactFormData {
   name: string
   email: string
@@ -26,8 +26,9 @@ const EMPTY_FORM: ContactFormData = {
   message: "",
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
 export function ContactSection() {
+  const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM)
@@ -56,15 +57,12 @@ export function ContactSection() {
       } else {
         setSubmitStatus("error")
         setErrorMessage(
-          result.error ||
-            "Unable to send your message right now. Please try again or email us directly at info@hayyaksa.com"
+          result.error || t("contact.errorDefault")
         )
       }
     } catch {
       setSubmitStatus("error")
-      setErrorMessage(
-        "Network error. Please check your connection and try again, or email us directly at info@hayyaksa.com"
-      )
+      setErrorMessage(t("contact.networkError"))
     } finally {
       setIsSubmitting(false)
     }
@@ -86,76 +84,95 @@ export function ContactSection() {
             transition={{ duration: 0.8 }}
           >
             <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
-              Contact Us
+              {t("contact.sectionLabel")}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance">
-              Let&apos;s Start a Conversation
+              {t("contact.title")}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-10">
-              Ready to explore opportunities in Saudi Arabia? Our team is here to
-              help you navigate your journey to success in the Kingdom.
+              {t("contact.subtitle")}
             </p>
 
             {/* Contact Details */}
             <div className="space-y-6 mb-10">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 h-5 text-[#00338D]" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground mb-1">Office Location</h3>
-                  <p className="text-[#00338D]">
-                    King Fahd Road, Riyadh<br />
-                    Kingdom of Saudi Arabia
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
+              {/* Email */}
+              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+                <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#00338D]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                  <a href="mailto:info@hayyaksa.com" className="text-[#00338D] hover:underline">
-                    info@hayyaksa.com
+                  <h3 className="font-semibold text-foreground mb-1">{t("contact.email")}</h3>
+                  <a href="mailto:info@hayyaksa.com" className="text-[#4B9FE1] hover:text-[#00338D]">
+                    {t("contact.emailAddress")}
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
+              {/* Phone */}
+              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+                <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#00338D]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Phone</h3>
-                  <a href="tel:+966511047242" className="text-[#00338D] hover:underline">
-                    +966 51 104 7242
+                  <h3 className="font-semibold text-foreground mb-1">{t("contact.phone")}</h3>
+                  <a href="tel:+966511047242" className="text-[#4B9FE1] hover:text-[#00338D]">
+                    {t("contact.phoneNumber")}
                   </a>
+                </div>
+              </div>
+
+              {/* WhatsApp */}
+              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+                <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="w-5 h-5 text-[#00338D]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">{t("contact.whatsapp")}</h3>
+                  <a href="https://wa.me/966511047242" target="_blank" rel="noopener noreferrer" className="text-[#4B9FE1] hover:text-[#00338D]">
+                    {t("contact.phoneNumber")}
+                  </a>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-5 h-5 text-[#00338D]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-1">{t("contact.location")}</h3>
+                  <p className="text-muted-foreground">{t("contact.locationAddress")}</p>
                 </div>
               </div>
             </div>
 
-            {/* Social Links — all with target="_blank" and rel attributes */}
-            <div className="flex gap-4">
-              <a
-                href="https://wa.me/966511047242"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-[#25D366] flex items-center justify-center text-white hover:opacity-90 transition-opacity"
-                aria-label="Contact us on WhatsApp"
-              >
-                <MessageCircle className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/company/hayyak-solutions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-[#0A66C2] flex items-center justify-center text-white hover:opacity-90 transition-opacity"
-                aria-label="Follow us on LinkedIn"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
+            {/* Social Links */}
+            <div>
+              <h3 className="font-semibold text-foreground mb-4">{t("contact.socialMedia")}</h3>
+              <div className="flex gap-4">
+                <a
+                  href="https://www.linkedin.com/company/hayyak-solutions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-[#00338D] text-white flex items-center justify-center hover:bg-[#002266] transition-colors"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://wa.me/966511047242"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-lg bg-[#00338D] text-white flex items-center justify-center hover:bg-[#002266] transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
+                <a
+                  href="mailto:info@hayyaksa.com"
+                  className="w-10 h-10 rounded-lg bg-[#00338D] text-white flex items-center justify-center hover:bg-[#002266] transition-colors"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+              </div>
             </div>
           </motion.div>
 
@@ -165,164 +182,163 @@ export function ContactSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-[#F8F9FB] rounded-2xl p-8">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-6">
-                Send us a Message
+            <div className="bg-[#F8F9FB] rounded-2xl p-8 md:p-10">
+              <h3 className="font-serif text-2xl font-semibold text-foreground mb-2">
+                {t("contact.formTitle")}
               </h3>
-
-              {/* Success Message */}
-              {submitStatus === "success" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-start gap-3"
-                >
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-green-800 font-medium">
-                    Your message has been sent successfully. We&apos;ll be in touch soon!
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Error Message */}
-              {submitStatus === "error" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3"
-                >
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-800 font-medium">{errorMessage}</p>
-                </motion.div>
-              )}
+              <p className="text-muted-foreground mb-8">{t("contact.formSubtitle")}</p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your name"
-                      className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
-                      required
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
-                      Company
-                    </label>
-                    <Input
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      placeholder="Your company"
-                      className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                </div>
+                {/* Name */}
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
-                    Service of Interest
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                    {t("contact.nameLabel")}
                   </label>
                   <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder={t("contact.namePlaceholder")}
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    {t("contact.emailLabel")}
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder={t("contact.emailPlaceholder")}
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                    {t("contact.phoneLabel")}
+                  </label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder={t("contact.phonePlaceholder")}
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Company */}
+                <div>
+                  <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
+                    {t("contact.companyLabel")}
+                  </label>
+                  <Input
+                    id="company"
+                    name="company"
+                    type="text"
+                    placeholder={t("contact.companyPlaceholder")}
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Service */}
+                <div>
+                  <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
+                    {t("contact.serviceLabel")}
+                  </label>
+                  <select
                     id="service"
                     name="service"
                     value={formData.service}
-                    onChange={handleChange}
-                    placeholder="e.g. Market Entry Strategy, Government Relations"
-                    className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
-                    disabled={isSubmitting}
-                  />
+                    onChange={(e) => handleChange(e as any)}
+                    className="w-full px-4 py-2 rounded-lg border border-border bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-[#00338D]"
+                  >
+                    <option value="">{t("contact.serviceSelect")}</option>
+                    <option value="market-entry">{t("services.service1Title")}</option>
+                    <option value="business-dev">{t("services.service2Title")}</option>
+                    <option value="gov-relations">{t("services.service3Title")}</option>
+                    <option value="partnerships">{t("services.service4Title")}</option>
+                    <option value="intelligence">{t("services.service5Title")}</option>
+                    <option value="representation">{t("services.service6Title")}</option>
+                    <option value="investor">{t("services.service7Title")}</option>
+                    <option value="expansion">{t("services.service8Title")}</option>
+                  </select>
                 </div>
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email <span className="text-red-500">*</span>
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
-                      required
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
-                      Phone
-                    </label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+966 XX XXX XXXX"
-                      className="bg-white border-border focus:border-[#00338D] focus:ring-[#00338D]"
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                </div>
+
+                {/* Message */}
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Message <span className="text-red-500">*</span>
+                    {t("contact.messageLabel")}
                   </label>
                   <textarea
                     id="message"
                     name="message"
+                    placeholder={t("contact.messagePlaceholder")}
                     value={formData.message}
                     onChange={handleChange}
-                    rows={4}
-                    placeholder="How can we help you?"
-                    className="w-full px-3 py-2 bg-white border border-border rounded-lg focus:border-[#00338D] focus:ring-1 focus:ring-[#00338D] outline-none resize-none text-foreground placeholder:text-muted-foreground disabled:opacity-50"
                     required
-                    disabled={isSubmitting}
+                    rows={5}
+                    className="w-full px-4 py-2 rounded-lg border border-border bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-[#00338D] resize-none"
                   />
                 </div>
+
+                {/* Status Messages */}
+                {submitStatus === "success" && (
+                  <div className="flex items-start gap-3 p-4 rounded-lg bg-green-50 border border-green-200">
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold text-green-900">{t("contact.successTitle")}</h4>
+                      <p className="text-sm text-green-800">{t("contact.successMessage")}</p>
+                    </div>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="flex items-start gap-3 p-4 rounded-lg bg-red-50 border border-red-200">
+                    <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-semibold text-red-900">{t("contact.errorTitle")}</h4>
+                      <p className="text-sm text-red-800">{errorMessage}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold py-6 disabled:opacity-50"
                   disabled={isSubmitting}
+                  className="w-full bg-[#00338D] hover:bg-[#002266] text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                  {!isSubmitting && <Send className="ml-2 w-4 h-4" />}
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      {t("contact.submitting")}
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      {t("contact.submitButton")}
+                    </>
+                  )}
                 </Button>
               </form>
             </div>
           </motion.div>
         </div>
-
-        {/* Map Embed */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 rounded-2xl overflow-hidden shadow-lg"
-        >
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3624.674856992041!2d46.6752957!3d24.7135517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03890d489399%3A0xba974d1c98e79fd5!2sKingdom%20Centre!5e0!3m2!1sen!2ssa!4v1709913600000!5m2!1sen!2ssa"
-            width="100%"
-            height="400"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="H&S Office Location"
-            className="grayscale hover:grayscale-0 transition-all duration-500"
-          />
-        </motion.div>
       </div>
     </section>
   )

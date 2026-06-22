@@ -4,19 +4,17 @@ import { locales, defaultLocale } from './i18n'
 export default createMiddleware({
   locales,
   defaultLocale,
-  localePrefix: 'always', // Always show /en, /ar, /fr in URL
-  localeDetection: true,  // Detect browser language on first visit
+  localePrefix: 'always',
+  localeDetection: true,
 })
 
 export const config = {
   matcher: [
-    // Match all pathnames except for
-    // - api (API routes)
-    // - _next/static (static files)
-    // - _next/image (image optimization files)
-    // - favicon.ico (favicon file)
-    // - robots.txt (robots file)
-    // - sitemap.xml (sitemap file)
-    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    // Match all pathnames except:
+    // - API routes (api/*)
+    // - Static files (_next/*)
+    // - Images and assets (*.png, *.jpg, *.svg, etc.)
+    // - Public assets (/public/*)
+    '/((?!api|_next|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|ttf|woff|woff2)$|images|public|favicon.ico|robots.txt|sitemap.xml).*)',
   ],
 }
