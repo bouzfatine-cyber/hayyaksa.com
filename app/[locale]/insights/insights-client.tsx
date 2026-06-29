@@ -15,28 +15,33 @@ export function InsightsClient() {
       <Navbar />
       <main className="min-h-screen pt-20">
       {/* Hero Section */}
-       <section 
-        className="relative text-white py-20 md:py-32 flex items-center justify-center"
-        style={{
-          backgroundImage: 'url(/images/insights/perspectives.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        {/* Dark overlay for text readability */}
-        <div className="container mx-auto px-4 relative z-10 flex justify-center w-full">
-          <div className="max-w-3xl text-center insights-hero-content">
-            <p className="text-blue-100 uppercase text-sm font-semibold mb-4">
-              {t('sectionLabel')}
-            </p>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              {t('title')}
-            </h1>
-            <p className="text-xl text-blue-100">
-              {t('subtitle')}
-            </p>
-          </div>
-        </div>
+     <section>
+        <div className="container mx-auto px-4 flex flex-col items-center text-center">
+
+  {/* TEXT FIRST */}
+  <div className="max-w-3xl mb-10">
+    <p className="text-sm font-semibold text-gray-500 uppercase mb-4">
+      {t('sectionLabel')}
+    </p>
+
+    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      {t('title')}
+    </h1>
+
+    <p className="text-lg text-gray-600">
+      {t('subtitle')}
+    </p>
+  </div>
+
+  {/* IMAGE BELOW */}
+  <div className="w-full max-w-5xl">
+    <img
+      src="/images/insights/perspectives.png"
+      alt="Insights"
+      className="w-full h-auto rounded-xl object-cover"
+    />
+  </div>
+</div>
       </section>
 
       {/* Insights Grid */}
