@@ -108,14 +108,14 @@ export default function InsightsSection() {
         {/* Main Grid: Featured Left + 3 Cards Right */}
         {locale === "ar" ? (
           <div
-  className={`flex flex-col lg:gap-8 gap-8 ${
-    locale === "ar"
-      ? "lg:flex-row-reverse"
-      : "lg:flex-row"
-  }`}
->
+            className={`flex flex-col lg:gap-8 gap-8 ${
+              locale === "ar"
+                ? "lg:flex-row-reverse"
+                : "lg:flex-row"
+            }`}
+          >
             {/* Arabic: 3 Smaller Cards First (Right Side) */}
-            <div className="lg:w-2/3 flex flex-col gap-6">
+            <div className="lg:w-2/3 flex flex-col gap-6 order-2 lg:order-none">
               {otherArticles.map((article, index) => (
                 <motion.article
                   key={article.titleKey}
@@ -164,7 +164,7 @@ export default function InsightsSection() {
                 initial={{ opacity: 1, y: 0 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="lg:w-1/3 lg:flex-shrink-0"
+                className="lg:w-1/3 lg:flex-shrink-0 order-1 lg:order-none"
               >
                 <Link
                   href={`/${locale}/insights/${featuredArticle.slug}`}
@@ -188,11 +188,11 @@ export default function InsightsSection() {
                       <h3 className="font-serif text-lg md:text-xl lg:text-2xl text-foreground mb-4 group-hover:text-[#00338D] transition-colors leading-tight">
                         {t(featuredArticle.titleKey)}
                       </h3>
-                     <div
-  className={`flex items-center gap-2 text-xs text-muted-foreground mt-auto ${
-    locale === "ar" ? "flex-row-reverse justify-end" : ""
-  }`}
->
+                      <div
+                        className={`flex items-center gap-2 text-xs text-muted-foreground mt-auto ${
+                          locale === "ar" ? "flex-row-reverse justify-end" : ""
+                        }`}
+                      >
                         <Calendar className="w-4 h-4" />
                         {t(featuredArticle.dateKey)}
                       </div>
@@ -231,10 +231,10 @@ export default function InsightsSection() {
                     </div>
                     {/* Featured Content */}
                     <div
-  className={`p-6 md:p-8 flex flex-col flex-grow ${
-    locale === "ar" ? "text-right" : ""
-  }`}
->
+                      className={`p-6 md:p-8 flex flex-col flex-grow ${
+                        locale === "ar" ? "text-right" : ""
+                      }`}
+                    >
                       <h3 className="font-serif text-lg md:text-xl lg:text-2xl text-foreground mb-4 group-hover:text-[#00338D] transition-colors leading-tight">
                         {t(featuredArticle.titleKey)}
                       </h3>
