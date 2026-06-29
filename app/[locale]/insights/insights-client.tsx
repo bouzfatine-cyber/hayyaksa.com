@@ -24,7 +24,6 @@ export function InsightsClient() {
         }}
       >
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4 relative z-10 flex justify-center w-full">
           <div className="max-w-3xl text-center insights-hero-content">
             <p className="text-blue-100 uppercase text-sm font-semibold mb-4">
