@@ -16,9 +16,9 @@ export function InsightsClient() {
       <main className="min-h-screen pt-20">
       {/* Hero Section */}
       <section 
-        className="relative text-white py-20 md:py-32 flex items-center justify-center"
-        style={{
-          backgroundImage: 'url(/images/insights/perspectives.png)',
+        className="bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: "url(/images/insights/perspectives.png)",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

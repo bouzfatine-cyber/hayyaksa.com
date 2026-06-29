@@ -97,11 +97,7 @@ export function Navbar() {
 
   // Navigation Links component
   const NavLinks = () => (
-    <div
-      className={`hidden lg:flex items-center gap-8 ${
-        locale === "ar" ? "flex-row-reverse" : "flex-row"
-      }`}
-    >
+    <div className="flex items-center gap-8 rtl:flex-row-reverse">
       {(locale === "ar"
   ? [...getNavLinks()].reverse()
   : getNavLinks()
@@ -185,7 +181,7 @@ export function Navbar() {
             </div>
 
             {/* Mobile Menu Button (visible only on mobile) */}
-            <div className="lg:hidden ml-auto">
+            <div className={`lg:hidden ${locale === "ar" ? "mr-auto" : "ml-auto"}`}>
               <MobileMenuButton />
             </div>
           </div>
@@ -195,35 +191,37 @@ export function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: locale === "ar" ? "-100%" : "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: locale === "ar" ? "-100%" : "100%" }}
-            transition={{ duration: 0.3 }}
-            className={`fixed top-0 h-full w-80 bg-white shadow-xl ${
-              locale === "ar" ? "left-0" : "right-0"
-            }`}
-            style={{ top: "80px", zIndex: 40 }}
-            dir={locale === "ar" ? "rtl" : undefined}
-          >
-            <div
-              className={`flex flex-col gap-4 p-6 ${
-                locale === "ar" ? "text-right" : ""
-              }`}
-            >
-              {(locale === "ar"
-  ? [...getNavLinks()].reverse()
-  : getNavLinks()
-).map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium hover:text-[#00338D] transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {t(link.key)}
-                </Link>
-              ))}
+  <motion.div
+    initial={{
+      opacity: 0,
+      x: locale === "ar" ? "-100%" : "100%",
+    }}
+    animate={{
+      opacity: 1,
+      x: 0,
+    }}
+    exit={{
+      opacity: 0,
+      x: locale === "ar" ? "-100%" : "100%",
+    }}
+    transition={{ duration: 0.3 }}
+    className={`fixed top-[80px] h-[calc(100vh-80px)] w-80 bg-white shadow-xl z-40 ${
+      locale === "ar" ? "left-0" : "right-0"
+    }`}
+    dir={locale === "ar" ? "rtl" : "ltr"}
+  >
+    <div className="flex flex-col gap-4 p-6">
+      {getNavLinks().map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className="text-sm font-medium"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          {t(link.key)}
+        </Link>
+      ))}
+
 
               {/* Mobile Language Selector */}
               <div className="border-t border-gray-200 pt-4 mt-4">

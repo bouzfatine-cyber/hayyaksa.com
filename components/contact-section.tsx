@@ -284,7 +284,7 @@ export function ContactSection() {
 
                       {/* Country Dropdown List */}
                       {showCountryList && (
-                        <div className="absolute top-full left-0 mt-1 z-50 w-64 max-h-64 overflow-y-auto rounded-md border border-border bg-white shadow-lg">
+                        <div className="absolute top-full left-0 rtl:right-0 rtl:left-auto mt-1 z-50 w-64 max-h-64 max-w-[90vw] overflow-y-auto rounded-md border border-border bg-white shadow-lg">
                           <input
                             type="text"
                             placeholder={t("contact.countrySearch")}
