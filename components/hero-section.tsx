@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Shield, Globe, Handshake } from "lucide-react"
+import { ArrowRight, ArrowLeft, Shield, Globe, Handshake } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useTranslations, useLocale } from "next-intl"
@@ -74,23 +74,55 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className={locale === "ar" ? "flex flex-col sm:flex-row-reverse gap-4" : "flex flex-col sm:flex-row gap-4"}>
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
-              >
-                <Link href="#contact">
-                  {t("hero.cta1")}
-                  <ArrowRight className={locale === "ar" ? "mr-2 h-5 w-5" : "ml-2 h-5 w-5"} />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
-              >
-                <Link href="#services">{t("hero.cta2")}</Link>
-              </Button>
+              {locale === "ar" ? (
+                <>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
+                  >
+                    <Link href="#contact">
+                      {t("hero.cta1")}
+                      {locale === "ar" ? (
+                        <ArrowLeft className="mr-2 h-5 w-5" />
+                      ) : (
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      )}
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
+                  >
+                    <Link href="#services">{t("hero.cta2")}</Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
+                  >
+                    <Link href="#services">{t("hero.cta2")}</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-8 py-6 text-base"
+                  >
+                    <Link href="#contact">
+                      {t("hero.cta1")}
+                      {locale === "ar" ? (
+                        <ArrowLeft className="mr-2 h-5 w-5" />
+                      ) : (
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      )}
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Trust Indicators */}
@@ -120,7 +152,7 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="hidden lg:block"
+            className="hidden lg:block lg:-mt-40"
           >
             <div className="glass-card rounded-2xl p-8 shadow-xl">
               <h3 className="font-serif text-xl font-semibold text-foreground mb-6">

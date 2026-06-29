@@ -2,11 +2,14 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react"
+import { useRef, useState, useMemo, type ChangeEvent, type FormEvent } from "react"
 import { useTranslations, useLocale } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MapPin, Phone, Mail, MessageCircle, Linkedin, Send, CheckCircle, AlertCircle } from "lucide-react"
+import { getCountries, getCountryCallingCode } from "react-phone-number-input"
+import ReactCountryFlag from "react-country-flag"
+
 
 interface ContactFormData {
   name: string
@@ -32,9 +35,32 @@ export function ContactSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM)
+ const [selectedCountry, setSelectedCountry] = useState("SA")
+  const [showCountryList, setShowCountryList] = useState(false)
+  const [countrySearch, setCountrySearch] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState("")
+
+  const countries = useMemo(() => getCountries() as string[], [])
+  
+  const displayNames = useMemo(
+    () => new Intl.DisplayNames([locale], { type: "region" }),
+    [locale]
+  )
+  
+  const filteredCountries = useMemo(() => {
+    return countrySearch
+      ? countries.filter((country) => {
+          const name = displayNames.of(country)
+          const code = getCountryCallingCode(country as any)
+          return (
+            name?.toLowerCase().includes(countrySearch.toLowerCase()) ||
+            code?.includes(countrySearch.toLowerCase())
+          )
+        })
+      : countries
+  }, [countries, countrySearch, displayNames])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -42,11 +68,17 @@ export function ContactSection() {
     setSubmitStatus("idle")
     setErrorMessage("")
 
+    const countryCode = getCountryCallingCode(selectedCountry as any)
+    const fullPhoneNumber = `+${countryCode}${formData.phone.replace(/\D/g, "")}`
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          phone: fullPhoneNumber,
+        }),
       })
 
       const result = await response.json()
@@ -54,6 +86,7 @@ export function ContactSection() {
       if (result.success) {
         setSubmitStatus("success")
         setFormData(EMPTY_FORM)
+        setSelectedCountry("SA")
       } else {
         setSubmitStatus("error")
         setErrorMessage(
@@ -86,8 +119,8 @@ export function ContactSection() {
             <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
               {t("contact.sectionLabel")}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance">
-              {t("contact.title")}
+            <h2 className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance ${ locale === "ar" ? "text-right" : "text-left" }`} >
+                {t("contact.title")}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-10">
               {t("contact.subtitle")}
@@ -96,39 +129,39 @@ export function ContactSection() {
             {/* Contact Details */}
             <div className="space-y-6 mb-10">
               {/* Email */}
-              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#00338D]" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">{t("contact.email")}</h3>
-                  <a href="mailto:info@hayyaksa.com" className="text-[#4B9FE1] hover:text-[#00338D]">
+                  <a href="mailto:info@hayyaksa.com" className="text-[#4B9FE1] hover:text-[#00338D]" dir="ltr">
                     {t("contact.emailAddress")}
                   </a>
                 </div>
               </div>
 
               {/* Phone */}
-              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#00338D]" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">{t("contact.phone")}</h3>
-                  <a href="tel:+966511047242" className="text-[#4B9FE1] hover:text-[#00338D]">
+                  <a href="tel:+966511047242" className="text-[#4B9FE1] hover:text-[#00338D]" dir="ltr">
                     {t("contact.phoneNumber")}
                   </a>
                 </div>
               </div>
 
               {/* WhatsApp */}
-              <div className={locale === "ar" ? "flex items-start gap-4 flex-row-reverse" : "flex items-start gap-4"}>
+              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-lg bg-[#DCEBFA] flex items-center justify-center flex-shrink-0">
                   <MessageCircle className="w-5 h-5 text-[#00338D]" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">{t("contact.whatsapp")}</h3>
-                  <a href="https://wa.me/966511047242" target="_blank" rel="noopener noreferrer" className="text-[#4B9FE1] hover:text-[#00338D]">
+                  <a href="https://wa.me/966511047242" target="_blank" rel="noopener noreferrer" className="text-[#4B9FE1] hover:text-[#00338D]" dir="ltr">
                     {t("contact.phoneNumber")}
                   </a>
                 </div>
@@ -223,20 +256,86 @@ export function ContactSection() {
                   />
                 </div>
 
-                {/* Phone */}
+                {/* Phone with Country Selector */}
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                     {t("contact.phoneLabel")}
                   </label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    placeholder={t("contact.phonePlaceholder")}
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full"
-                  />
+                  <div
+  className="flex gap-3 items-stretch"
+  style={{
+  flexDirection: locale === "ar" ? "row" : "row",
+}}
+>
+                    {/* Country Selector Button */}
+                    <div className="relative
+                    ">
+                      <button
+                        type="button"
+                        onClick={() => setShowCountryList(!showCountryList)}
+                        className="h-9 px-3 rounded-md border border-border bg-white flex items-center justify-center gap-2 hover:bg-muted transition-colors"
+                      >
+                        <ReactCountryFlag
+                          countryCode={selectedCountry}
+                          svg={true}
+                          style={{ width: "1.5rem", height: "1.5rem" }}
+                        />
+                      </button>
+
+                      {/* Country Dropdown List */}
+                      {showCountryList && (
+                        <div className="absolute top-full left-0 mt-1 z-50 w-64 max-h-64 overflow-y-auto rounded-md border border-border bg-white shadow-lg">
+                          <input
+                            type="text"
+                            placeholder={t("contact.countrySearch")}
+                            value={countrySearch}
+                            onChange={(e) => setCountrySearch(e.target.value)}
+                            className="sticky top-0 w-full px-3 py-2 border-b border-border text-sm focus:outline-none"
+                          />
+                          <div>
+                            {filteredCountries.map((country) => (
+                              <button
+                                key={country}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCountry(country)
+                                  setShowCountryList(false)
+                                  setCountrySearch("")
+                                }}
+                                className="w-full flex items-center gap-3 px-3 py-2 hover:bg-muted transition-colors text-left text-sm"
+                              >
+                                <ReactCountryFlag
+                                  countryCode={country}
+                                  svg={true}
+                                  style={{ width: "1.5rem", height: "1.5rem" }}
+                                />
+                                <span className="flex-1">{displayNames.of(country)}</span>
+                                <span className="text-xs text-muted-foreground">+{getCountryCallingCode(country as any)}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Phone Input */}
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder={t("contact.phonePlaceholder")}
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      dir="ltr"
+                       className="flex-1"
+  style={{
+    direction: "ltr",
+    textAlign: locale === "ar" ? "right" : "left",
+    unicodeBidi: "plaintext",
+  }}
+                    />
+                  </div>
                 </div>
 
                 {/* Company */}
@@ -319,22 +418,29 @@ export function ContactSection() {
 
                 {/* Submit Button */}
                 <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#00338D] hover:bg-[#002266] text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      {t("contact.submitting")}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      {t("contact.submitButton")}
-                    </>
-                  )}
-                </Button>
+  type="submit"
+  disabled={isSubmitting}
+  className="w-full bg-[#00338D] hover:bg-[#002266] text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+>
+  {isSubmitting ? (
+    <>
+      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+      {t("contact.submitting")}
+    </>
+  ) : (
+    <>
+      {t("contact.submitButton")}
+      <Send
+        className="w-4 h-4"
+        style={
+          locale === "ar"
+            ? { transform: "scaleX(-1)" }
+            : undefined
+        }
+      />
+    </>
+  )}
+</Button>
               </form>
             </div>
           </motion.div>

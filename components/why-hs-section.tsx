@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { MapPin, Network, Lightbulb, Compass, Users } from "lucide-react"
 
 const benefitIcons = [MapPin, Network, Lightbulb, Compass, Users]
@@ -41,6 +41,7 @@ function AnimatedCounter({ value, suffix, isText }: { value: number; suffix: str
 
 export function WhyHSSection() {
   const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -87,12 +88,18 @@ export function WhyHSSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
+          <span 
+            className={`text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider block ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("whyHS.sectionLabel")}
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance">
+          <h2 
+            className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("whyHS.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

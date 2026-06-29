@@ -3,11 +3,12 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
 
 export function TestimonialsSection() {
   const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -49,12 +50,18 @@ export function TestimonialsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
+          <span 
+            className={`text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider block ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("testimonials.sectionLabel")}
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 text-balance">
+          <h2 
+            className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 text-balance ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("testimonials.title")}
           </h2>
         </motion.div>
@@ -68,12 +75,12 @@ export function TestimonialsSection() {
         >
           <div className="bg-[#F8F9FB] rounded-3xl p-8 md:p-12 relative">
             {/* Quote icon */}
-            <div className="absolute top-8 left-8 w-12 h-12 rounded-full bg-[#DCEBFA] flex items-center justify-center">
+            <div className={`absolute top-8 w-12 h-12 rounded-full bg-[#DCEBFA] flex items-center justify-center ${locale === "ar" ? "right-8" : "left-8"}`}>
               <Quote className="w-6 h-6 text-[#00338D]" />
             </div>
 
             {/* Content */}
-            <div className="pt-8">
+            <div className={`pt-8 ${locale === "ar" ? "pr-20 md:pr-0" : "pl-20 md:pl-0"}`}>
               <motion.div
                 key={currentIndex}
                 initial={{ opacity: 0, x: 20 }}

@@ -17,8 +17,9 @@ export const localeLabels: Record<Locale, { name: string; flag: string }> = {
   fr: { name: 'Français', flag: '🇫🇷' }
 }
 
-export default getRequestConfig(async ({ locale }) => {
-  const resolvedLocale = locale ?? defaultLocale
+export default getRequestConfig(async ({ locale, requestLocale }) => {
+  // Use explicit locale override if provided, otherwise use requestLocale from URL segment
+  const resolvedLocale = locale ?? (await requestLocale) ?? defaultLocale
 
   let messages
 
@@ -34,7 +35,8 @@ export default getRequestConfig(async ({ locale }) => {
   }
 
   return {
-    locale: resolvedLocale,
-    messages
+  locale: resolvedLocale,
+  messages,
+  timeZone: "UTC"
   }
 })

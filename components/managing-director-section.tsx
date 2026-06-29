@@ -3,31 +3,46 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 import Image from "next/image"
 
 export function ManagingDirectorSection() {
   const t = useTranslations()
+  const locale = useLocale()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="py-24 bg-gradient-to-br from-[#00338D] to-[#002266]" ref={ref}>
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+<section className="relative py-24 overflow-hidden" ref={ref}>
+  {/* Gradient Background */}
+  <div className="absolute inset-0 bg-gradient-to-br from-[#00338D] via-[#0047B3] to-[#001A4D]" />
+
+  {/* Soft Glow Effect */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-[#4B9FE1]/15 blur-3xl" />
+
+  {/* Content */}
+  <div className="relative z-10">
+    <div className="max-w-4xl mx-auto px-6 lg:px-8">
         {/* Single Column Layout - Centered */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center"
+          className={locale === "ar" ? "text-center" : ""}
         >
           {/* Label */}
-          <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
+          <span 
+            className={`text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider block ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("managingDirector.sectionLabel")}
           </span>
 
           {/* Title */}
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-4 mb-12 text-balance">
+          <h2 
+            className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white mt-4 mb-12 text-balance ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("managingDirector.messageTitle")}
           </h2>
 
@@ -66,7 +81,7 @@ export function ManagingDirectorSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-8"
+            className={`mb-8 ${locale !== "ar" ? "text-center" : ""}`}
           >
             <div className="font-serif text-2xl md:text-3xl text-white mb-1">
               {t("managingDirector.name")}
@@ -95,6 +110,7 @@ export function ManagingDirectorSection() {
           </motion.div>
         </motion.div>
       </div>
+       </div>
     </section>
   )
 }

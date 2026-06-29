@@ -69,7 +69,10 @@ export function AboutSection() {
             <span className="text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider">
               {t("aboutUs.sectionLabel")}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance">
+            <h2   className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance ${
+    locale === "ar" ? "text-right" : "left"
+  }`}
+>
               {t("aboutUs.title")}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">

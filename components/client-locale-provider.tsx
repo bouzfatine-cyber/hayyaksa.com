@@ -20,6 +20,11 @@ import { useEffect } from "react"
  */
 export function ClientLocaleProvider({ children }: { children: React.ReactNode }) {
   const locale = useLocale()
+  console.log("ClientLocaleProvider rendered", locale)
+
+useEffect(() => {
+  console.log("ClientLocaleProvider useEffect")
+}, [])
 
   useEffect(() => {
     // Get the root html element

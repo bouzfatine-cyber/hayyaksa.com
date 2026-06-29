@@ -1,18 +1,5 @@
 import { getMessages } from "next-intl/server"
-import { NextIntlClientProvider } from "next-intl"
-import { ClientLocaleProvider } from "@/components/client-locale-provider"
-import { notFound } from "next/navigation"
-
-const locales = ["en", "ar", "fr"]
-const localeDirection: Record<string, string> = {
-  en: "ltr",
-  ar: "rtl",
-  fr: "ltr",
-}
-
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
-}
+import { LocaleProviderWrapper } from "@/components/locale-provider-wrapper"
 
 export default async function LocaleLayout({
   children,
@@ -22,18 +9,11 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-
-  if (!locales.includes(locale)) {
-    notFound()
-  }
-
-  const messages = await getMessages({ locale })
+  const messages = await getMessages()
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
-      <ClientLocaleProvider>
-        {children}
-      </ClientLocaleProvider>
-    </NextIntlClientProvider>
+    <LocaleProviderWrapper locale={locale} messages={messages}>
+      {children}
+    </LocaleProviderWrapper>
   )
 }

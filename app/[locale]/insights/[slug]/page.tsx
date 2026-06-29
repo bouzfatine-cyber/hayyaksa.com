@@ -34,8 +34,17 @@ export default function InsightDetailPage({
       <section className="bg-white py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl">
-            <Link href={`/${locale}/insights`} className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
-              ← Back to Insights
+            <Link 
+              href={`/${locale}/insights`} 
+              className={`text-blue-600 hover:text-blue-700 mb-4 inline-flex items-center gap-2 ${
+                locale === 'ar' ? 'justify-end' : ''
+              }`}
+              dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            >
+              <span>{locale === 'ar' ? '→' : '←'}</span>
+              <span>
+                {locale === 'en' ? 'Back to Insights' : locale === 'fr' ? 'Retour aux Insights' : 'العودة إلى المستجدات'}
+              </span>
             </Link>
             <div className="flex items-center gap-4 mb-6">
               <span className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">
@@ -70,7 +79,7 @@ export default function InsightDetailPage({
           {/* Executive Summary */}
           {contentData?.executiveSummary && (
             <section className="mb-12 p-6 bg-blue-50 rounded-lg border border-blue-200">
-              <h2 className="text-2xl font-bold mb-4 text-blue-900">Executive Summary</h2>
+              <h2 className="text-2xl font-bold mb-4 text-blue-900">{locale === 'en' ? 'Executive Summary' : locale === 'fr' ? 'Résumé exécutif' : 'الملخص التنفيذي'}</h2>
               <p className="text-gray-700 leading-relaxed">
                 {contentData.executiveSummary}
               </p>
@@ -80,7 +89,7 @@ export default function InsightDetailPage({
           {/* Key Insights */}
           {contentData?.keyInsights && (
             <section className="mb-12">
-              <h2 className="text-3xl font-bold mb-6">Key Strategic Insights</h2>
+              <h2 className="text-3xl font-bold mb-6">{locale === 'en' ? 'Key Strategic Insights' : locale === 'fr' ? 'Principaux insights stratégiques' : 'الرؤى الاستراتيجية الرئيسية'}</h2>
               <ul className="space-y-4">
                 {contentData.keyInsights.map((item: string, idx: number) => (
                   <li key={idx} className="flex gap-4">
@@ -141,22 +150,34 @@ export default function InsightDetailPage({
           {/* Conclusion */}
           {contentData?.conclusion && (
             <section className="mb-12 p-6 bg-slate-50 rounded-lg border border-slate-200">
-              <h2 className="text-2xl font-bold mb-4">Conclusion</h2>
+              <h2 className="text-2xl font-bold mb-4">{locale === 'en' ? 'Conclusion' : locale === 'fr' ? 'Conclusion' : 'الخلاصة'}</h2>
               <p className="text-gray-700 leading-relaxed">{contentData.conclusion}</p>
             </section>
           )}
 
-          {/* CTA */}
-          <section className="bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-lg p-8 md:p-12 mb-12">
-            <h2 className="text-3xl font-bold mb-4">Ready to Take the Next Step?</h2>
-            <p className="text-lg text-blue-100 mb-8">{t(insight.ctaKey)}</p>
-            <Link
-              href="/#contact"
-              className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50"
-            >
-              Schedule a Consultation
-            </Link>
-          </section>
+         {/* CTA */}
+<section className="bg-gradient-to-r from-blue-900 to-blue-800 text-white rounded-lg p-8 md:p-12 mb-12 text-center">
+  <div className="max-w-3xl mx-auto">
+    <h2 className="text-3xl font-bold mb-4">
+      {locale === 'en' ? 'Ready to Take the Next Step?' : locale === 'fr' ? 'Prêt à passer à l\'étape suivante ?' : 'هل أنت مستعد للانتقال إلى الخطوة التالية؟'}
+    </h2>
+
+    <p className="text-lg text-blue-100 mb-8">
+      {t(insight.ctaKey)}
+    </p>
+
+    <Link
+      href={`/${locale}/#contact`}
+      className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50"
+    >
+      {locale === 'en'
+        ? 'Schedule a Consultation'
+        : locale === 'fr'
+        ? 'Planifiez une consultation'
+        : 'احجز استشارة'}
+    </Link>
+  </div>
+</section>
 
           {/* Related */}
           <section className="border-t border-gray-200 pt-12">

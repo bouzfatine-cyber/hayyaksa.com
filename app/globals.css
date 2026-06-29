@@ -1,6 +1,9 @@
 @import 'flag-icons/css/flag-icons.min.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import './styles/hero-layout.css';
+/* @import "./styles/rtl.css"; */
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -106,13 +109,6 @@
   border: 1px solid rgba(75, 159, 225, 0.2);
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #00338D 0%, #4B9FE1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .gradient-border {
   position: relative;
 }
@@ -183,65 +179,15 @@ html {
   background-clip: text;
 }
 
-/* ========================================
-   RTL (Right-to-Left) Support for Arabic
-   Text Direction Only - No Layout Changes
-   ======================================== */
 
-/* Global RTL text direction - affects text only */
-html[dir="rtl"] {
-  direction: rtl;
-  text-align: right;
-}
 
-/* RTL for heading elements */
-html[dir="rtl"] h1,
-html[dir="rtl"] h2,
-html[dir="rtl"] h3,
-html[dir="rtl"] h4,
-html[dir="rtl"] h5,
-html[dir="rtl"] h6 {
-  direction: rtl;
-  text-align: right;
-}
 
-/* RTL for paragraph elements */
-html[dir="rtl"] p {
-  direction: rtl;
-  text-align: right;
-}
 
-/* RTL for list items */
-html[dir="rtl"] li {
-  direction: rtl;
-  text-align: right;
-}
 
-/* RTL for list containers */
-html[dir="rtl"] ul,
-html[dir="rtl"] ol {
-  padding-left: 0;
-  padding-right: 2rem;
-  margin-left: 0;
-  margin-right: auto;
-}
 
 /* Keep code and pre elements LTR */
 html[dir="rtl"] code,
 html[dir="rtl"] pre {
   direction: ltr;
   text-align: left;
-}
-
-/* RTL form elements */
-html[dir="rtl"] input,
-html[dir="rtl"] textarea,
-html[dir="rtl"] select {
-  direction: rtl;
-  text-align: right;
-}
-
-html[dir="rtl"] input::placeholder,
-html[dir="rtl"] textarea::placeholder {
-  text-align: right;
 }

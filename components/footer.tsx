@@ -2,12 +2,13 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Linkedin, Mail, Phone, MessageCircle } from "lucide-react"
 import Image from "next/image"
 
 export function Footer() {
   const t = useTranslations()
+  const locale = useLocale()
 
   const socialLinks = [
     {
@@ -33,12 +34,20 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-[#00338D] text-white">
+    <footer className="bg-[#00338D] text-white" dir={locale === "ar" ? "rtl" : "ltr"}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-3 md:py-4">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-3">
+        <div
+  className={`grid grid-cols-2 md:grid-cols-5 gap-3 mb-3 ${
+    locale === "ar" ? "text-right" : "text-left"
+  }`}
+>
           {/* Brand — spans 2 columns */}
-          <div className="col-span-2">
+          <div
+  className={`col-span-2 ${
+    locale === "ar" ? "md:order-5" : "md:order-1"
+  }`}
+>
             <Link href="/" className="flex items-center mb-2">
                <div className="h-6 w-fit">
   <Image
@@ -72,12 +81,12 @@ export function Footer() {
           </div>
 
           {/* Navigation Links - NEW ORDER */}
-          <div>
+          <div className={locale === "ar" ? "md:order-4" : "md:order-2"}>
             <h4 className="font-semibold text-white text-sm mb-2">{t("footer.navigation") || "Navigation"}</h4>
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="#about"
+                  href={`/${locale}/#about`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.aboutUs")}
@@ -85,7 +94,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#why-hs"
+                  href={`/${locale}/#why-hs`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.whyChooseUs")}
@@ -93,7 +102,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#services"
+                  href={`/${locale}/#services`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.services")}
@@ -101,7 +110,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#industries"
+                  href={`/${locale}/#industries`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.industries")}
@@ -109,7 +118,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#insights"
+                  href={`/${locale}/#insights`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.insights")}
@@ -117,7 +126,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href={`/${locale}/#contact`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("navbar.contact")}
@@ -127,12 +136,12 @@ export function Footer() {
           </div>
 
           {/* Contact Links */}
-          <div>
+          <div className={locale === "ar" ? "md:order-3" : "md:order-3"}>
             <h4 className="font-semibold text-white text-sm mb-2">{t("footer.contactTitle")}</h4>
             <ul className="space-y-1">
               <li>
                 <Link
-                  href="#contact"
+                  href={`/${locale}/#contact`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("footer.contactUs")}
@@ -140,7 +149,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href={`/${locale}/#contact`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("footer.riyadhOffice")}
@@ -148,7 +157,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href={`/${locale}/#contact`}
                   className="text-xs text-white/70 hover:text-white transition-colors"
                 >
                   {t("footer.scheduleCall")}
@@ -158,7 +167,7 @@ export function Footer() {
           </div>
 
           {/* Legal Links */}
-          <div>
+          <div className={locale === "ar" ? "md:order-2" : "md:order-4"}>
             <h4 className="font-semibold text-white text-sm mb-2">{t("footer.legal")}</h4>
             <ul className="space-y-1">
               <li>
@@ -190,8 +199,8 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-white/10 pt-2 text-center">
-          <p className="text-xs text-white/70">{t("footer.copyright")}</p>
+        <div className="border-t border-white/10 pt-2 text-center footer-copyright">
+          <p className="text-xs text-white/70" style={{ textAlign: "center" }}>{t("footer.copyright")}</p>
         </div>
       </div>
     </footer>

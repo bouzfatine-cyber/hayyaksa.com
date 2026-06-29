@@ -28,29 +28,20 @@ export function Navbar() {
   // Handle language switching
   const handleLanguageChange = (newLocale: string) => {
     if (newLocale === locale) {
-      return // Same language, don't navigate
+      return
     }
 
-    // IMPORTANT: Safety check to prevent nested locales (e.g., /ar/en, /fr/ar)
-    // Even though usePathname() should return path without locale prefix,
-    // we explicitly strip it in case of edge cases or race conditions
-    
-    // If pathname starts with current locale, remove it
     let pathWithoutLocale = pathname
     if (pathname.startsWith(`/${locale}/`)) {
-      // Remove /en, /ar, /fr etc. from beginning
       pathWithoutLocale = pathname.slice(`/${locale}`.length)
     } else if (pathname === `/${locale}`) {
-      // Handle root locale path
-      pathWithoutLocale = '/'
+      pathWithoutLocale = "/"
     }
-    
-    // Ensure path starts with / for proper routing
-    if (!pathWithoutLocale.startsWith('/')) {
+
+    if (!pathWithoutLocale.startsWith("/")) {
       pathWithoutLocale = `/${pathWithoutLocale}`
     }
-    
-    // Create new path with new locale
+
     const newPath = `/${newLocale}${pathWithoutLocale}`
     router.push(newPath)
   }
@@ -65,6 +56,96 @@ export function Navbar() {
     { href: `/${locale}/#contact`, key: "navbar.contact" },
   ]
 
+  // Language selector component
+  const LanguageSelector = () => (
+    <div
+      className={`flex items-center gap-3 ${
+        locale === "ar"
+          ? "border-r border-gray-300 pr-6"
+          : "border-l border-gray-300 pl-6"
+      }`}
+    >
+      {[
+        { code: "en", flagClass: "fi fi-gb" },
+        { code: "ar", flagClass: "fi fi-sa" },
+        { code: "fr", flagClass: "fi fi-fr" },
+      ].map((lang) => (
+        <button
+          key={lang.code}
+          onClick={() => handleLanguageChange(lang.code)}
+          className={`inline-flex items-center justify-center transition-all duration-300 hover:opacity-70 ${
+            locale === lang.code ? "opacity-100" : "opacity-80"
+          }`}
+          title={lang.code.toUpperCase()}
+          aria-label={`Switch to ${lang.code}`}
+        >
+          <span className={`${lang.flagClass} text-2xl`} />
+        </button>
+      ))}
+    </div>
+  )
+
+  // CTA Button component
+  const CTAButton = () => (
+    <Button
+      asChild
+      className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-6"
+    >
+      <Link href={`/${locale}/#contact`}>{t("navbar.getStarted")}</Link>
+    </Button>
+  )
+
+  // Navigation Links component
+  const NavLinks = () => (
+    <div
+      className={`hidden lg:flex items-center gap-8 ${
+        locale === "ar" ? "flex-row-reverse" : "flex-row"
+      }`}
+    >
+      {(locale === "ar"
+  ? [...getNavLinks()].reverse()
+  : getNavLinks()
+).map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className="text-sm font-medium transition-colors hover:text-[#00338D]"
+        >
+          {t(link.key)}
+        </Link>
+      ))}
+    </div>
+  )
+
+  // Logo component
+  const Logo = () => (
+    <Link href={`/${locale}/`} className="flex items-center">
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo-rmj25DNHKbxaX098OEXcFYJgEV3ayM.png"
+        alt="H&S - Hayyak & Solutions"
+        width={200}
+        height={80}
+        className="h-16 w-auto"
+        priority={true}
+      />
+    </Link>
+  )
+
+  // Mobile Menu Button component
+  const MobileMenuButton = () => (
+    <button
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      className="lg:hidden flex items-center justify-center"
+      aria-label="Toggle mobile menu"
+    >
+      {isMobileMenuOpen ? (
+        <X className="w-6 h-6" />
+      ) : (
+        <Menu className="w-6 h-6" />
+      )}
+    </button>
+  )
+
   return (
     <>
       <motion.header
@@ -76,74 +157,37 @@ export function Navbar() {
             ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-border"
             : "bg-transparent"
         }`}
-        dir={locale === "ar" ? "rtl" : undefined}
       >
         <nav className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-                 {/* Logo */}
-            <Link href={`/${locale}/`} className="flex items-center">
-             <Image
-  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo-rmj25DNHKbxaX098OEXcFYJgEV3ayM.png"
-  alt="H&S - Hayyak & Solutions"
-  width={200}
-  height={80}
-  className="h-16 w-auto"
-  priority={true}
-/>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8">
-              {getNavLinks().map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-[#00338D] ${
-                    isScrolled ? "text-foreground" : "text-foreground"
-                  }`}
-                >
-                  {t(link.key)}
-                </Link>
-              ))}
+          {/* Desktop: CSS Grid layout | Mobile: Flex layout */}
+          <div
+            className="h-20 flex lg:grid items-center"
+            style={{
+              gridTemplateColumns: "auto 1fr auto",
+              gridAutoFlow: "column",
+            }}
+            dir={locale === "ar" ? "rtl" : undefined}
+          >
+            {/* Column 1: Logo (auto width) */}
+            <div className="flex items-center">
+              <Logo />
             </div>
 
-            {/* Language Selector & CTA Button */}
+            {/* Column 2: Navigation (1fr - fills space, centered) */}
+            <div className="hidden lg:flex justify-center">
+              <NavLinks />
+            </div>
+
+            {/* Column 3: Language Selector + CTA Button (auto width) */}
             <div className="hidden lg:flex items-center gap-6">
-              <div className={`flex items-center gap-3 ${locale === "ar" ? "border-r border-gray-300 pr-6" : "border-l border-gray-300 pl-6"}`}>
-                {[
-                  { code: "en", flagClass: "fi fi-gb" },
-                  { code: "ar", flagClass: "fi fi-sa" },
-                  { code: "fr", flagClass: "fi fi-fr" },
-                ].map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`inline-flex items-center justify-center transition-all duration-300 hover:opacity-70 ${
-                      locale === lang.code ? "opacity-100" : "opacity-80"
-                    }`}
-                    title={lang.code.toUpperCase()}
-                    aria-label={`Switch to ${lang.code}`}
-                  >
-                    <span className={`${lang.flagClass} text-2xl`} />
-                  </button>
-                ))}
-              </div>
-              <Button
-                asChild
-                className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold px-6"
-              >
-                <Link href={`/${locale}/#contact`}>{t("navbar.getStarted")}</Link>
-              </Button>
+              <LanguageSelector />
+              <CTAButton />
             </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-foreground"
-              aria-label="Toggle mobile menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile Menu Button (visible only on mobile) */}
+            <div className="lg:hidden ml-auto">
+              <MobileMenuButton />
+            </div>
           </div>
         </nav>
       </motion.header>
@@ -152,44 +196,60 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden"
+            initial={{ opacity: 0, x: locale === "ar" ? "-100%" : "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: locale === "ar" ? "-100%" : "100%" }}
+            transition={{ duration: 0.3 }}
+            className={`fixed top-0 h-full w-80 bg-white shadow-xl ${
+              locale === "ar" ? "left-0" : "right-0"
+            }`}
+            style={{ top: "80px", zIndex: 40 }}
+            dir={locale === "ar" ? "rtl" : undefined}
           >
-            <div className="absolute inset-0 bg-black/20" onClick={() => setIsMobileMenuOpen(false)} />
-            <motion.div
-              initial={{ x: locale === "ar" ? "-100%" : "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: locale === "ar" ? "-100%" : "100%" }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className={`absolute top-0 h-full w-80 bg-white shadow-xl ${locale === "ar" ? "left-0" : "right-0"}`}
-              dir={locale === "ar" ? "rtl" : undefined}
+            <div
+              className={`flex flex-col gap-4 p-6 ${
+                locale === "ar" ? "text-right" : ""
+              }`}
             >
-              <div className="p-6 pt-24">
-                <div className={`flex flex-col gap-4 ${locale === "ar" ? "text-right" : ""}`}>
-                  {getNavLinks().map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="text-lg font-medium text-foreground hover:text-[#00338D] transition-colors py-2"
+              {(locale === "ar"
+  ? [...getNavLinks()].reverse()
+  : getNavLinks()
+).map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium hover:text-[#00338D] transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t(link.key)}
+                </Link>
+              ))}
+
+              {/* Mobile Language Selector */}
+              <div className="border-t border-gray-200 pt-4 mt-4">
+                <div className="flex items-center gap-3 justify-center">
+                  {[
+                    { code: "en", flagClass: "fi fi-gb" },
+                    { code: "ar", flagClass: "fi fi-sa" },
+                    { code: "fr", flagClass: "fi fi-fr" },
+                  ].map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        handleLanguageChange(lang.code)
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className={`inline-flex items-center justify-center transition-all duration-300 hover:opacity-70 ${
+                        locale === lang.code ? "opacity-100" : "opacity-80"
+                      }`}
+                      title={lang.code.toUpperCase()}
                     >
-                      {t(link.key)}
-                    </Link>
+                      <span className={`${lang.flagClass} text-2xl`} />
+                    </button>
                   ))}
-                  <Button
-                    asChild
-                    className="bg-[#00338D] hover:bg-[#002266] text-white font-mono font-semibold mt-4"
-                  >
-                    <Link href={`/${locale}/#contact`} onClick={() => setIsMobileMenuOpen(false)}>
-                      {t("navbar.getStarted")}
-                    </Link>
-                  </Button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -25,8 +25,8 @@ export function InsightsClient() {
       >
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl text-center mx-auto">
+        <div className="container mx-auto px-4 relative z-10 flex justify-center w-full">
+          <div className="max-w-3xl text-center insights-hero-content">
             <p className="text-blue-100 uppercase text-sm font-semibold mb-4">
               {t('sectionLabel')}
             </p>
@@ -67,9 +67,22 @@ export function InsightsClient() {
                     <time className="text-sm text-gray-500">
                       {t(insight.dateKey)}
                     </time>
-                    <span className="text-blue-600 font-semibold">
-                      Read Article →
-                    </span>
+                    <span
+  className="text-blue-600 font-semibold inline-flex items-center gap-1"
+  dir="ltr"
+>
+  {locale === "ar" ? (
+    <>
+      <span>←</span>
+      <span>{t("readArticle")}</span>
+    </>
+  ) : (
+    <>
+      <span>{t("readArticle")}</span>
+      <span>→</span>
+    </>
+  )}
+</span>
                   </div>
                 </article>
               </Link>

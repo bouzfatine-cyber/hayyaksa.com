@@ -79,12 +79,18 @@ export function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className={`text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider ${isRTL ? "" : "block text-center"}`}>
+          <span 
+            className={`text-sm font-semibold text-[#4B9FE1] uppercase tracking-wider block ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("services.sectionLabel")}
           </span>
-          <h2 className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance ${isRTL ? "" : "text-center"}`}>
+          <h2 
+            className={`font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-6 text-balance ${locale === "ar" ? "" : "text-center"}`}
+            style={locale === "ar" ? { textAlign: "center" } : {}}
+          >
             {t("services.title")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
