@@ -191,40 +191,28 @@ export function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-  <motion.div
-    initial={{
-      opacity: 0,
-      x: locale === "ar" ? "-100%" : "100%",
-    }}
-    animate={{
-      opacity: 1,
-      x: 0,
-    }}
-    exit={{
-      opacity: 0,
-      x: locale === "ar" ? "-100%" : "100%",
-    }}
-    transition={{ duration: 0.3 }}
-    className={`fixed top-[80px] h-[calc(100vh-80px)] w-80 bg-white shadow-xl z-40 ${
-      locale === "ar" ? "left-0" : "right-0"
-    }`}
-    dir={locale === "ar" ? "rtl" : "ltr"}
-  >
-    <div className="flex flex-col gap-4 p-6">
-      {getNavLinks().map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className="text-sm font-medium"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          {t(link.key)}
-        </Link>
-      ))}
-
-
-              {/* Mobile Language Selector */}
-              <div className="border-t border-gray-200 pt-4 mt-4">
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: locale === "ar" ? "-100%" : "100%",
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            exit={{
+              opacity: 0,
+              x: locale === "ar" ? "-100%" : "100%",
+            }}
+            transition={{ duration: 0.3 }}
+            className={`fixed top-[80px] h-[calc(100vh-80px)] w-80 bg-white shadow-xl z-40 ${
+              locale === "ar" ? "left-0" : "right-0"
+            }`}
+            dir={locale === "ar" ? "rtl" : "ltr"}
+          >
+            <div className="flex flex-col gap-4 p-6">
+              {/* Mobile Language Selector - TOP */}
+              <div className="border-b border-border py-4 mb-6">
                 <div className="flex items-center gap-3 justify-center">
                   {[
                     { code: "en", flagClass: "fi fi-gb" },
@@ -247,6 +235,18 @@ export function Navbar() {
                   ))}
                 </div>
               </div>
+
+              {/* Navigation Links */}
+              {getNavLinks().map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t(link.key)}
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}
