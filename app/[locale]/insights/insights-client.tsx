@@ -15,16 +15,16 @@ export function InsightsClient() {
       <Navbar />
       <main className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section 
-        className="bg-cover bg-center bg-no-repeat"
+  <section 
+  className="bg-cover bg-center bg-no-repeat relative min-h-[500px]"
   style={{
     backgroundImage: "url(/images/insights/perspectives.png)",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }}
       >
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/30" />
         <div className="container mx-auto px-4 relative z-10 flex justify-center w-full">
           <div className="max-w-3xl text-center insights-hero-content">
             <p className="text-blue-100 uppercase text-sm font-semibold mb-4">
